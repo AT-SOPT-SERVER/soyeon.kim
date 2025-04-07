@@ -16,4 +16,8 @@ public class Post {
     public String getTitle() {
         return this.title;
     }
+
+    public void updateTitle(String newTitle) {
+        this.title = newTitle;
+    }
 }
