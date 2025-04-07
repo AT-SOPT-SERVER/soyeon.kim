@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostRepository {
-    List<Post> postList = new ArrayList<>();
+    private final List<Post> postList = new ArrayList<>();
 
-    public void save(Post post) {
+    public void save(final Post post) {
         postList.add(post);
     }
 
@@ -16,7 +16,7 @@ public class PostRepository {
         return postList;
     }
 
-    public Post findPostById(int id) {
+    public Post findPostById(final int id) {
         for (Post post : postList) {
             if (post.getId() == id) {
                 return post;
@@ -26,7 +26,7 @@ public class PostRepository {
         return null;
     }
 
-    public boolean delete(int id) {
+    public boolean delete(final int id) {
         for (Post post : postList) {
             if (post.getId() == id) {
                 postList.remove(post);
@@ -36,7 +36,7 @@ public class PostRepository {
         return false;
     }
 
-    public boolean updateTitleById(int id, String title) {
+    public boolean updateTitleById(final int id, final String title) {
         for (Post post : postList) {
             if (post.getId() == id) {
                 post.updateTitle(title);
