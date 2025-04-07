@@ -26,4 +26,8 @@ public class PostService {
     public boolean deletePostById(int id) {
         return postRepository.delete(id);
     }
+
+    public boolean updatePostTitle(int id, String title) {
+        return postRepository.updateTitleById(id, title);
+    }
 }
