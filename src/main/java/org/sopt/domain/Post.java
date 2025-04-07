@@ -5,6 +5,9 @@ public class Post {
     private String title;
 
     public Post(int id, String title) {
+        if(isTitleBlank(title)) {
+            throw new IllegalArgumentException("⚠️ 게시글 제목은 비워둘 수 없습니다!");
+        }
         this.id = id;
         this.title = title;
     }
@@ -19,5 +22,9 @@ public class Post {
 
     public void updateTitle(String newTitle) {
         this.title = newTitle;
+    }
+
+    private boolean isTitleBlank(String title) {
+        return title.isBlank();
     }
 }
