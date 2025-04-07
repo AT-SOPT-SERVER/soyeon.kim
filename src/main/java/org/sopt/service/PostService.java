@@ -10,7 +10,7 @@ public class PostService {
     private int postId = 1;
 
     public String createPost(final String title) {
-        try{
+        try {
             Post post = new Post(postId++, title);
             postRepository.save(post);
             return "✅ 게시글이 성공적으로 저장되었습니다.";

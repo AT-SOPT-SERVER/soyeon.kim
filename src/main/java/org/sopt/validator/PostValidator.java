@@ -13,7 +13,7 @@ public class PostValidator {
         boolean isDuplicated = postService.getAllPosts().stream()
                 .anyMatch(post -> post.getTitle().equals(title));
 
-        if(isDuplicated) {
+        if (isDuplicated) {
             throw new IllegalArgumentException("⚠️ 게시물 제목은 중복될 수 없습니다!");
         }
     }
