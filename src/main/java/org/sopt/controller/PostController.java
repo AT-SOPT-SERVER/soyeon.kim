@@ -9,13 +9,9 @@ public class PostController {
     private final PostService postService = new PostService();
     private final PostValidator postValidator = new PostValidator(postService);
 
-    public String createPost(final String title) {
-        try {
-            postValidator.isDuplicatedTitle(title);
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
-        }
-        return postService.createPost(title);
+    public void createPost(final String title) {
+        postValidator.isDuplicatedTitle(title);
+        postService.createPost(title);
     }
 
     public List<Post> getAllPosts() {
