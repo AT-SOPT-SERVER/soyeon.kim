@@ -33,6 +33,7 @@ public class PostRepository {
                 return true;
             }
         }
+
         return false;
     }
 
@@ -43,6 +44,18 @@ public class PostRepository {
                 return true;
             }
         }
+
         return false;
+    }
+
+    public List<Post> findPostsByKeyword(final String keyword) {
+        List<Post> results = new ArrayList<>();
+        for (Post post : postList) {
+            if (post.getTitle().contains(keyword)) {
+                results.add(post);
+            }
+        }
+
+        return results;
     }
 }
