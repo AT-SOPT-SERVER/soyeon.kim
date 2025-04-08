@@ -4,20 +4,15 @@ import org.sopt.domain.Post;
 import org.sopt.repository.PostRepository;
 
 import java.util.List;
+import org.sopt.util.IdGenerator;
 
 public class PostService {
     private final PostRepository postRepository = new PostRepository();
-    private int postId = 1;
+    private final IdGenerator idGenerator = new IdGenerator();
 
-    public String createPost(final String title) {
-        try {
-            Post post = new Post(postId++, title);
-            postRepository.save(post);
-            return "✅ 게시글이 성공적으로 저장되었습니다.";
-        } catch (IllegalArgumentException e) {
-            postId--;
-            return e.getMessage();
-        }
+    public void createPost(final String title) {
+        Post post = new Post(idGenerator.autoIncrement(), title);
+        postRepository.save(post);
     }
 
     public List<Post> getAllPosts() {
