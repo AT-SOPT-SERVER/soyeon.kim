@@ -17,7 +17,7 @@ public class CreatableTimeValidator implements PostValidationRule {
     public void validate(String title) {
         Optional<Post> lastPost = postRepository.findLastPost();
         if (lastPost.isPresent()
-                && Duration.between(lastPost.get().getCreatedAt(), LocalDateTime.now()).toSeconds() < 10) {
+                && Duration.between(lastPost.get().getCreatedAt(), LocalDateTime.now()).toMinutes() < 3) {
             throw new IllegalStateException("⚠️ 3분이 지나야 새 글을 작성할 수 있습니다.");
         }
     }
