@@ -11,8 +11,6 @@ import org.sopt.validator.PostValidator;
 public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
-    private final IdGenerator idGenerator = new IdGenerator();
-    private final FileIOUtil fileIOUtil = new FileIOUtil();
 
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -21,7 +19,7 @@ public class PostService {
 
     public void createPost(String title) {
         postValidator.validateAll(title);
-        Post post = new Post(idGenerator.autoIncrement(), title);
+        Post post = new Post(IdGenerator.autoIncrement(), title);
         postRepository.save(post);
     }
 
@@ -50,6 +48,6 @@ public class PostService {
         if (posts.isEmpty()) {
             throw new IllegalStateException("⚠️ 현재 작성된 게시글이 없습니다. 게시글을 먼저 작성해 주세요!");
         }
-        fileIOUtil.saveToFile(posts);
+        FileIOUtil.saveToFile(posts);
     }
 }

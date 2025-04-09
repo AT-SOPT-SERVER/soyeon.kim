@@ -1,9 +1,9 @@
 package org.sopt.util;
 
 public class IdGenerator {
-    private int id = 1;
+    private static int id = 1;
 
-    public int autoIncrement() {
+    public static int autoIncrement() {
         return id++;
     }
 }

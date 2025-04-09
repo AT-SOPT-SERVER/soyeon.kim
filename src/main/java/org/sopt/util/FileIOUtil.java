@@ -10,7 +10,7 @@ import org.sopt.domain.Post;
 public class FileIOUtil {
     private static final String FILEPATH = System.getProperty("user.dir") + "/src/main/java/org/sopt/assets/Post.txt";
 
-    public void saveToFile(List<Post> posts) {
+    public static void saveToFile(List<Post> posts) {
         File file = new File(FILEPATH);
 
         try {
