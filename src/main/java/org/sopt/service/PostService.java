@@ -17,8 +17,8 @@ public class PostService {
         this.postValidator = new PostValidator(postRepository);
     }
 
-    public void createPost(final String title) {
-        postValidator.isDuplicatedTitle(title);
+    public void createPost(String title) {
+        postValidator.validateAll(title);
         Post post = new Post(idGenerator.autoIncrement(), title);
         postRepository.save(post);
     }
@@ -27,19 +27,19 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public Post getPostById(final int id) {
+    public Post getPostById(int id) {
         return postRepository.findPostById(id);
     }
 
-    public boolean deletePostById(final int id) {
+    public boolean deletePostById(int id) {
         return postRepository.delete(id);
     }
 
-    public boolean updatePostTitle(final int id, final String title) {
+    public boolean updatePostTitle(int id, String title) {
         return postRepository.updateTitleById(id, title);
     }
 
-    public List<Post> searchPostsByKeyword(final String keyword) {
+    public List<Post> searchPostsByKeyword(String keyword) {
         return postRepository.findPostsByKeyword(keyword);
     }
 }
