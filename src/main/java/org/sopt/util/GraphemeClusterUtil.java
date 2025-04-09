@@ -1,6 +1,5 @@
 package org.sopt.util;
 
-import java.text.BreakIterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

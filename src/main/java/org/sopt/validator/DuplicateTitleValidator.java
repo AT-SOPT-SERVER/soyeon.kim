@@ -15,5 +15,4 @@ public class DuplicateTitleValidator implements PostValidationRule {
             throw new IllegalArgumentException("⚠️ 게시물 제목은 중복될 수 없습니다!");
         }
     }
-
 }

@@ -66,9 +66,10 @@ public class PostRepository {
     }
 
     public Optional<Post> findLastPost() {
-        if(!postList.isEmpty()) {
+        if (!postList.isEmpty()) {
             return Optional.ofNullable(postList.get(postList.size() - 1));
         }
+
         return Optional.empty();
     }
 }

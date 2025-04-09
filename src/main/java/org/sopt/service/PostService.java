@@ -47,7 +47,7 @@ public class PostService {
 
     public void createFile() {
         List<Post> posts = postRepository.findAll();
-        if(posts.isEmpty()) {
+        if (posts.isEmpty()) {
             throw new IllegalStateException("⚠️ 현재 작성된 게시글이 없습니다. 게시글을 먼저 작성해 주세요!");
         }
         fileIOUtil.saveToFile(posts);
