@@ -1,6 +1,7 @@
 package org.sopt.domain;
 
 import java.time.LocalDateTime;
+import org.sopt.util.GraphemeClusterUtil;
 
 public class Post {
     private final int id;
@@ -42,8 +43,8 @@ public class Post {
     }
 
     private void isTitleLessThan30(String title) {
-        if (title.length() > 30) {
-            throw new IllegalArgumentException("⚠️ 게시글 제목은 30자가 넘을 수 없습니다!");
+        if (GraphemeClusterUtil.countGraphemeClusters(title) > 30) {
+            throw new IllegalArgumentException("⚠️ 게시글 제목은 30자를 넘을 수 없습니다!");
         }
     }
 }
