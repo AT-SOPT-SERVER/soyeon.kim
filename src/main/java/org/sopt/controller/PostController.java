@@ -11,7 +11,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    public void createPost(final String title) {
+    public void createPost(String title) {
         postService.createPost(title);
     }
 
@@ -19,19 +19,23 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    public Post getPostById(final int id) {
+    public Post getPostById(int id) {
         return postService.getPostById(id);
     }
 
-    public boolean deletePostById(final int id) {
+    public boolean deletePostById(int id) {
         return postService.deletePostById(id);
     }
 
-    public boolean updatePostTitle(final int id, final String title) {
+    public boolean updatePostTitle(int id, String title) {
         return postService.updatePostTitle(id, title);
     }
 
-    public List<Post> searchPostsByKeyword(final String keyword) {
+    public List<Post> searchPostsByKeyword(String keyword) {
         return postService.searchPostsByKeyword(keyword);
+    }
+
+    public void createFile() {
+        postService.createFile();
     }
 }
