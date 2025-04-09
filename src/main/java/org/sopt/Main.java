@@ -31,7 +31,7 @@ public class Main {
                     try {
                         controller.createPost(title);
                         System.out.println("✅ 게시글이 성공적으로 저장되었습니다!");
-                    } catch (IllegalArgumentException e) {
+                    } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
