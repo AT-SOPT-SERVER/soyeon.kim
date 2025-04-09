@@ -5,12 +5,20 @@ import org.sopt.repository.PostRepository;
 
 import java.util.List;
 import org.sopt.util.IdGenerator;
+import org.sopt.validator.PostValidator;
 
 public class PostService {
-    private final PostRepository postRepository = new PostRepository();
+    private final PostRepository postRepository;
+    private final PostValidator postValidator;
     private final IdGenerator idGenerator = new IdGenerator();
 
+    public PostService(PostRepository postRepository) {
+        this.postRepository = postRepository;
+        this.postValidator = new PostValidator(postRepository);
+    }
+
     public void createPost(final String title) {
+        postValidator.isDuplicatedTitle(title);
         Post post = new Post(idGenerator.autoIncrement(), title);
         postRepository.save(post);
     }

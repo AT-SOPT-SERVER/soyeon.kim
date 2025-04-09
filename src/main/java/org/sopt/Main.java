@@ -4,11 +4,16 @@ import java.util.List;
 import java.util.Scanner;
 import org.sopt.controller.PostController;
 import org.sopt.domain.Post;
+import org.sopt.repository.PostRepository;
+import org.sopt.service.PostService;
 
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        PostController controller = new PostController();
+
+        PostRepository repository = new PostRepository();
+        PostService service = new PostService(repository);
+        PostController controller = new PostController(service);
 
         printWelcome();
 

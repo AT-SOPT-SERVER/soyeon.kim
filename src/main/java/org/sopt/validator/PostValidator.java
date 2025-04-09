@@ -1,16 +1,16 @@
 package org.sopt.validator;
 
-import org.sopt.service.PostService;
+import org.sopt.repository.PostRepository;
 
 public class PostValidator {
-    private final PostService postService;
+    private final PostRepository postRepository;
 
-    public PostValidator(final PostService postService) {
-        this.postService = postService;
+    public PostValidator(final PostRepository postRepository) {
+        this.postRepository = postRepository;
     }
 
     public void isDuplicatedTitle(final String title) {
-        boolean isDuplicated = postService.getAllPosts().stream()
+        boolean isDuplicated = postRepository.findAll().stream()
                 .anyMatch(post -> post.getTitle().equals(title));
 
         if (isDuplicated) {

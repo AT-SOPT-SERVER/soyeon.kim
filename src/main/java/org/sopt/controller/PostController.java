@@ -3,14 +3,15 @@ package org.sopt.controller;
 import java.util.List;
 import org.sopt.domain.Post;
 import org.sopt.service.PostService;
-import org.sopt.validator.PostValidator;
 
 public class PostController {
-    private final PostService postService = new PostService();
-    private final PostValidator postValidator = new PostValidator(postService);
+    private final PostService postService;
+
+    public PostController (PostService postService) {
+        this.postService = postService;
+    }
 
     public void createPost(final String title) {
-        postValidator.isDuplicatedTitle(title);
         postService.createPost(title);
     }
 
