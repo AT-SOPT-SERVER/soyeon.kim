@@ -4,6 +4,7 @@ import org.sopt.domain.Post;
 import org.sopt.repository.PostRepository;
 
 import java.util.List;
+import org.sopt.util.FileIOUtil;
 import org.sopt.util.IdGenerator;
 import org.sopt.validator.PostValidator;
 
@@ -11,6 +12,7 @@ public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
     private final IdGenerator idGenerator = new IdGenerator();
+    private final FileIOUtil fileIOUtil = new FileIOUtil();
 
     public PostService(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -41,5 +43,13 @@ public class PostService {
 
     public List<Post> searchPostsByKeyword(String keyword) {
         return postRepository.findPostsByKeyword(keyword);
+    }
+
+    public void createFile() {
+        List<Post> posts = postRepository.findAll();
+        if(posts.isEmpty()) {
+            throw new IllegalStateException("⚠️ 현재 작성된 게시글이 없습니다. 게시글을 먼저 작성해 주세요!");
+        }
+        fileIOUtil.saveToFile(posts);
     }
 }
