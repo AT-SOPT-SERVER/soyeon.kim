@@ -100,6 +100,16 @@ public class Main {
                     }
                     break;
 
+                case "7":
+                    System.out.println("\n💿 [게시글 파일 저장]");
+                    try {
+                        controller.createFile();
+                        System.out.println("✅ 작성된 게시글이 성공적으로 파일에 저장되었습니다.");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    break;
+
                 case "0":
                     System.out.println("\n👋 프로그램을 종료합니다. 감사합니다!");
                     return;
@@ -124,6 +134,7 @@ public class Main {
         System.out.println("4️⃣  게시글 수정");
         System.out.println("5️⃣  게시글 삭제");
         System.out.println("6️⃣  게시글 검색");
+        System.out.println("7️⃣  게시글 파일 저장");
         System.out.println("0️⃣  프로그램 종료");
         System.out.println("=====================================");
     }
