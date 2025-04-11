@@ -11,8 +11,13 @@ public class PostController {
         this.postService = postService;
     }
 
-    public void createPost(String title) {
-        postService.createPost(title);
+    public boolean createPost(String title) {
+        try {
+            return postService.createPost(title);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 
     public List<Post> getAllPosts() {
@@ -28,14 +33,24 @@ public class PostController {
     }
 
     public boolean updatePostTitle(int id, String title) {
-        return postService.updatePostTitle(id, title);
+        try {
+            return postService.updatePostTitle(id, title);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 
     public List<Post> searchPostsByKeyword(String keyword) {
         return postService.searchPostsByKeyword(keyword);
     }
 
-    public void createFile() {
-        postService.createFile();
+    public boolean createFile() {
+        try {
+            return postService.createFile();
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 }

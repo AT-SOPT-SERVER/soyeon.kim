@@ -17,10 +17,11 @@ public class PostService {
         this.postValidator = new PostValidator(postRepository);
     }
 
-    public void createPost(String title) {
+    public boolean createPost(String title) {
         postValidator.validateAll(title);
         Post post = new Post(IdGenerator.autoIncrement(), title);
         postRepository.save(post);
+        return true;
     }
 
     public List<Post> getAllPosts() {
@@ -44,11 +45,12 @@ public class PostService {
         return postRepository.findPostsByKeyword(keyword);
     }
 
-    public void createFile() {
+    public boolean createFile() {
         List<Post> posts = postRepository.findAll();
         if (posts.isEmpty()) {
             throw new IllegalStateException("⚠️ 현재 작성된 게시글이 없습니다. 게시글을 먼저 작성해 주세요!");
         }
         FileIOUtil.saveToFile(posts);
+        return true;
     }
 }

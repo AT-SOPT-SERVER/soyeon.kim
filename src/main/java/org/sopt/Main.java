@@ -28,11 +28,11 @@ public class Main {
                     System.out.println("\n📝 [게시글 작성]");
                     System.out.print("📌 제목을 입력해주세요: ");
                     String title = scanner.nextLine();
-                    try {
-                        controller.createPost(title);
+                    boolean saved = controller.createPost(title);
+                    if (saved) {
                         System.out.println("✅ 게시글이 성공적으로 저장되었습니다!");
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                    } else {
+                        System.out.println("⚠️ 게시글 작성에 실패했습니다.");
                     }
                     break;
 
@@ -102,11 +102,11 @@ public class Main {
 
                 case "7":
                     System.out.println("\n💿 [게시글 파일 저장]");
-                    try {
-                        controller.createFile();
+                    boolean created = controller.createFile();
+                    if(created) {
                         System.out.println("✅ 작성된 게시글이 성공적으로 파일에 저장되었습니다.");
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
+                    } else {
+                        System.out.println("⚠️ 파일 저장에 실패했습니다.");
                     }
                     break;
 
