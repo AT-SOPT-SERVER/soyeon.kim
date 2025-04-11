@@ -36,6 +36,7 @@ public class PostService {
     }
 
     public boolean updatePostTitle(int id, String title) {
+        postValidator.validateAll(title);
         return postRepository.updateTitleById(id, title);
     }
 
