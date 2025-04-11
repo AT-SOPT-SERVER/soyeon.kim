@@ -28,6 +28,7 @@ public class Post {
     }
 
     public void updateTitle(String newTitle) {
+        validateTitle(newTitle);
         this.title = newTitle;
     }
 
