@@ -2,8 +2,15 @@ package org.sopt.controller;
 
 import java.util.List;
 import org.sopt.domain.Post;
+import org.sopt.dto.PostRequest;
 import org.sopt.service.PostService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
 public class PostController {
     private final PostService postService;
 
@@ -11,17 +18,14 @@ public class PostController {
         this.postService = postService;
     }
 
-    public boolean createPost(String title) {
-        try {
-            return postService.createPost(title);
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            System.err.println(e.getMessage());
-            return false;
-        }
+    @PostMapping("/post")
+    public void createPost(@RequestBody final PostRequest postRequest) {
+        postService.createPost(postRequest.getTitle());
     }
 
-    public List<Post> getAllPosts() {
-        return postService.getAllPosts();
+    @GetMapping("/posts")
+    public ResponseEntity<?> getAllPosts() {
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     public Post getPostById(int id) {

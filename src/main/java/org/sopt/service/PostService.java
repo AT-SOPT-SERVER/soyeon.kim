@@ -7,7 +7,9 @@ import java.util.List;
 import org.sopt.util.FileIOUtil;
 import org.sopt.util.IdGenerator;
 import org.sopt.validator.PostValidator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
@@ -17,11 +19,11 @@ public class PostService {
         this.postValidator = new PostValidator(postRepository);
     }
 
-    public boolean createPost(String title) {
+    public void createPost(String title) {
         postValidator.validateAll(title);
         Post post = new Post(IdGenerator.autoIncrement(), title);
         postRepository.save(post);
-        return true;
+        System.out.println(post.getTitle());
     }
 
     public List<Post> getAllPosts() {
