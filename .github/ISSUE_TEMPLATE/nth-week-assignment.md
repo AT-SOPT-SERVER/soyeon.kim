@@ -1,6 +1,6 @@
 ---
-name: n주차 과제
-about: 이번 주차의 주제는?!
+name: nth-week-assignment
+about: 이번 주차의 과제는?!
 title: "[FEAT]"
 labels: "\U0001F527 구현"
 assignees: kaswhy
