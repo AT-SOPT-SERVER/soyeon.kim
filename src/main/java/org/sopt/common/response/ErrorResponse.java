@@ -1,4 +1,6 @@
-package org.sopt.common.exception;
+package org.sopt.common.response;
+
+import org.sopt.common.exception.ErrorCode;
 
 public class ErrorResponse {
 
