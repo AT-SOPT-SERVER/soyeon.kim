@@ -19,4 +19,16 @@ public class ApiResponse<T> {
     public static <T> ApiResponse<T> created() {
         return new ApiResponse<>(201, "새로운 리소스 생성에 성공했습니다.", null);
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public T getData() {
+        return data;
+    }
 }

@@ -11,4 +11,12 @@ public class ErrorResponse {
         this.status = errorCode.getStatus().value();
         this.message = errorCode.getMessage();
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
