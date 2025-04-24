@@ -1,7 +1,9 @@
 package org.sopt.service;
 
+import java.util.stream.Collectors;
 import org.sopt.domain.Post;
 import org.sopt.dto.PostRequest;
+import org.sopt.dto.PostResponse;
 import org.sopt.repository.PostRepository;
 
 import java.util.List;
@@ -28,8 +30,12 @@ public class PostService {
         return post.getId();
     }
 
-    public List<Post> getAllPosts() {
-        return postRepository.findAll();
+    public List<PostResponse> getAllPosts() {
+        List<Post> posts = postRepository.findAll();
+
+        return posts.stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
     }
 
     public Post getPostById(Long id) {
