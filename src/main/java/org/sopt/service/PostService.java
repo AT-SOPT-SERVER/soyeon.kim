@@ -19,7 +19,7 @@ public class PostService {
     }
 
     public Long createPost(PostRequest postRequest) {
-        String title = postRequest.getTitle();
+        String title = postRequest.title();
 
         postValidator.validateAll(title);
         Post post = new Post(title);
