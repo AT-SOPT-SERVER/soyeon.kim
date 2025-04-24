@@ -1,6 +1,7 @@
 package org.sopt.service;
 
 import org.sopt.domain.Post;
+import org.sopt.dto.PostRequest;
 import org.sopt.repository.PostRepository;
 
 import java.util.List;
@@ -17,11 +18,14 @@ public class PostService {
         this.postValidator = new PostValidator(postRepository);
     }
 
-    public void createPost(String title) {
+    public Long createPost(PostRequest postRequest) {
+        String title = postRequest.getTitle();
+
         postValidator.validateAll(title);
         Post post = new Post(title);
         postRepository.save(post);
-        System.out.println(post.getTitle());
+
+        return post.getId();
     }
 
     public List<Post> getAllPosts() {
@@ -29,7 +33,7 @@ public class PostService {
     }
 
     public Post getPostById(Long id) {
-        return postRepository.findPostById(id);
+        return postRepository.findPostById(id).get();
     }
 
     public void deletePostById(Long id) {
