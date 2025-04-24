@@ -1,9 +1,12 @@
 package org.sopt.service;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.sopt.common.exception.BusinessException;
 import org.sopt.domain.Post;
 import org.sopt.dto.PostRequest;
 import org.sopt.dto.PostResponse;
+import org.sopt.exception.PostErrorCode;
 import org.sopt.repository.PostRepository;
 
 import java.util.List;
@@ -38,8 +41,13 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public Post getPostById(Long id) {
-        return postRepository.findPostById(id).get();
+    public PostResponse getPostById(Long id) {
+        Optional<Post> post = postRepository.findPostById(id);
+        if(post.isEmpty()) {
+            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
+        }
+
+        return PostResponse.from(post.get());
     }
 
     public void deletePostById(Long id) {
