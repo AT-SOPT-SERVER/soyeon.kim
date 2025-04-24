@@ -3,7 +3,6 @@ package org.sopt.controller;
 import java.net.URI;
 import java.util.List;
 import org.sopt.common.response.ApiResponse;
-import org.sopt.domain.Post;
 import org.sopt.dto.PostRequest;
 import org.sopt.dto.PostResponse;
 import org.sopt.service.PostService;
@@ -40,8 +39,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Post getPostById(@PathVariable Long id) {
-        return postService.getPostById(id);
+    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 조회했습니다.", postService.getPostById(id)));
     }
 
     @DeleteMapping("/{id}")
