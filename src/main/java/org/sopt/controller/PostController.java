@@ -1,9 +1,11 @@
 package org.sopt.controller;
 
 import java.net.URI;
+import java.util.List;
 import org.sopt.common.response.ApiResponse;
 import org.sopt.domain.Post;
 import org.sopt.dto.PostRequest;
+import org.sopt.dto.PostResponse;
 import org.sopt.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,12 +30,13 @@ public class PostController {
     public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody final PostRequest postRequest) {
         Long createdId = postService.createPost(postRequest);
         URI location = URI.create("/posts/" + createdId);
+
         return ResponseEntity.created(location).body(ApiResponse.created());
     }
 
-    @GetMapping("/")
-    public ResponseEntity<?> getAllPosts() {
-        return ResponseEntity.ok(postService.getAllPosts());
+    @GetMapping()
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getAllPosts() {
+        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts()));
     }
 
     @GetMapping("/{id}")
@@ -49,7 +52,7 @@ public class PostController {
     @PatchMapping("/{id}")
     public void updatePostTitle(@PathVariable Long id, @RequestBody PostRequest postRequest) {
         try {
-            postService.updatePostTitle(id, postRequest.getTitle());
+            postService.updatePostTitle(id, postRequest.title());
         } catch (IllegalArgumentException | IllegalStateException e) {
             System.err.println(e.getMessage());
         }
