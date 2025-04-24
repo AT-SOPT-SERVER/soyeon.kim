@@ -16,7 +16,7 @@ public class ApiResponse<T> {
         return new ApiResponse<>(200, "요청이 성공적으로 처리되었습니다.", data);
     }
 
-    public static <T> ApiResponse<T> success() {
-        return new ApiResponse<>(200, "새로운 리소스 생성에 성공했습니다.", null);
+    public static <T> ApiResponse<T> created() {
+        return new ApiResponse<>(201, "새로운 리소스 생성에 성공했습니다.", null);
     }
 }
