@@ -30,6 +30,10 @@ public class Post {
         this.createdAt = LocalDateTime.now();
     }
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
     private void validateTitle(String title) {
         isTitleBlank(title);
         isTitleLessThan30(title);
