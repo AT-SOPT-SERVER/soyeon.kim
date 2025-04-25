@@ -53,16 +53,22 @@ public class PostService {
 
     @Transactional
     public void deletePostById(Long id) {
-        if (postRepository.findById(id).isPresent()) {
-            postRepository.deleteById(id);
-            return;
+        if (postRepository.findById(id).isEmpty()) {
+            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
         }
-        throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
+        postRepository.deleteById(id);
     }
 
-    public void updatePostTitle(Long id, String title) {
+    @Transactional
+    public void updatePostTitle(Long id, PostRequest postRequest) {
+        Optional<Post> post = postRepository.findPostById(id);
+        if (post.isEmpty()) {
+            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
+        }
+
+        String title = postRequest.title();
         postValidator.validateAll(title);
-        // postRepository.updateTitleById(id, title);
+        post.get().updateTitle(title);
     }
 
     public void searchPostsByKeyword(String keyword) {
