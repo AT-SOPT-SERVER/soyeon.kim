@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/posts")
@@ -25,7 +26,7 @@ public class PostController {
         this.postService = postService;
     }
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody final PostRequest postRequest) {
         Long createdId = postService.createPost(postRequest);
         URI location = URI.create("/posts/" + createdId);
@@ -33,9 +34,15 @@ public class PostController {
         return ResponseEntity.created(location).body(ApiResponse.created());
     }
 
-    @GetMapping()
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getAllPosts() {
-        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts()));
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getAllPosts(@RequestParam(required = false) String search) {
+        if (search == null || search.isBlank()) {
+            return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts()));
+        }
+
+        return ResponseEntity.ok(
+                ApiResponse.ok("✅ 성공적으로 게시물을 검색했습니다.", postService.searchPostsByKeyword(search))
+        );
     }
 
     @GetMapping("/{id}")
@@ -56,9 +63,5 @@ public class PostController {
         postService.updatePostTitle(id, postRequest);
 
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 수정했습니다.", null));
-    }
-
-    public void searchPostsByKeyword(String keyword) {
-        postService.searchPostsByKeyword(keyword);
     }
 }
