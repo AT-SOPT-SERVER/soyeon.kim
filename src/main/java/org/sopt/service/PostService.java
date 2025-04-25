@@ -12,6 +12,7 @@ import org.sopt.repository.PostRepository;
 import java.util.List;
 import org.sopt.validator.PostValidator;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PostService {
@@ -50,6 +51,7 @@ public class PostService {
         return PostResponse.from(post.get());
     }
 
+    @Transactional
     public void deletePostById(Long id) {
         if (postRepository.findById(id).isPresent()) {
             postRepository.deleteById(id);
