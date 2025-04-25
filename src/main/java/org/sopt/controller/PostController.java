@@ -44,8 +44,9 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePostById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<Void>> deletePostById(@PathVariable Long id) {
         postService.deletePostById(id);
+        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 삭제했습니다.", null));
     }
 
     @PatchMapping("/{id}")
