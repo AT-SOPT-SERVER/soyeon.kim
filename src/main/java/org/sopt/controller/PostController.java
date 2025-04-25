@@ -46,16 +46,16 @@ public class PostController {
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deletePostById(@PathVariable Long id) {
         postService.deletePostById(id);
+
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 삭제했습니다.", null));
     }
 
     @PatchMapping("/{id}")
-    public void updatePostTitle(@PathVariable Long id, @RequestBody PostRequest postRequest) {
-        try {
-            postService.updatePostTitle(id, postRequest.title());
-        } catch (IllegalArgumentException | IllegalStateException e) {
-            System.err.println(e.getMessage());
-        }
+    public ResponseEntity<ApiResponse<Void>> updatePostTitle(@PathVariable Long id,
+                                                             @RequestBody PostRequest postRequest) {
+        postService.updatePostTitle(id, postRequest);
+
+        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 수정했습니다.", null));
     }
 
     public void searchPostsByKeyword(String keyword) {
