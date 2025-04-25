@@ -71,7 +71,11 @@ public class PostService {
         post.get().updateTitle(title);
     }
 
-    public void searchPostsByKeyword(String keyword) {
-        // return postRepository.findPostsByKeyword(keyword);
+    public List<PostResponse> searchPostsByKeyword(String keyword) {
+        List<Post> posts = postRepository.findPostsByTitleContaining(keyword);
+
+        return posts.stream()
+                .map(PostResponse::from)
+                .collect(Collectors.toList());
     }
 }
