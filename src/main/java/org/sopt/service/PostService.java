@@ -43,7 +43,7 @@ public class PostService {
 
     public PostResponse getPostById(Long id) {
         Optional<Post> post = postRepository.findPostById(id);
-        if(post.isEmpty()) {
+        if (post.isEmpty()) {
             throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
         }
 
@@ -51,7 +51,11 @@ public class PostService {
     }
 
     public void deletePostById(Long id) {
-        postRepository.deleteById(id);
+        if (postRepository.findById(id).isPresent()) {
+            postRepository.deleteById(id);
+            return;
+        }
+        throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
     }
 
     public void updatePostTitle(Long id, String title) {
