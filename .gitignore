@@ -47,3 +47,5 @@ bin/
 src/main/java/org/sopt/assets
 
 Icon
+
+application.yml

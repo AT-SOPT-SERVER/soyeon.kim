@@ -1,35 +1,37 @@
 package org.sopt.domain;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.time.LocalDateTime;
-import org.sopt.util.GraphemeClusterUtil;
+import org.sopt.common.exception.BusinessException;
+import org.sopt.common.util.GraphemeClusterUtil;
+import org.sopt.exception.PostErrorCode;
 
+@Entity
 public class Post {
-    private final int id;
-    private String title;
-    private final LocalDateTime createdAt;
 
-    public Post(final int id, final String title) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String title;
+
+    private LocalDateTime createdAt;
+
+    public Post() {
+
+    }
+
+    public Post(String title) {
         validateTitle(title);
-        this.id = id;
         this.title = title;
         this.createdAt = LocalDateTime.now();
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
-
-    public void updateTitle(String newTitle) {
-        validateTitle(newTitle);
-        this.title = newTitle;
+    public void updateTitle(String title) {
+        this.title = title;
     }
 
     private void validateTitle(String title) {
@@ -39,13 +41,25 @@ public class Post {
 
     private void isTitleBlank(String title) {
         if (title.isBlank()) {
-            throw new IllegalArgumentException("⚠️ 게시글 제목은 비워둘 수 없습니다!");
+            throw new BusinessException(PostErrorCode.INVALID_BLANK_TITLE);
         }
     }
 
     private void isTitleLessThan30(String title) {
         if (GraphemeClusterUtil.countGraphemeClusters(title) > 30) {
-            throw new IllegalArgumentException("⚠️ 게시글 제목은 30자를 넘을 수 없습니다!");
+            throw new BusinessException(PostErrorCode.INVALID_TITLE_LENGTH);
         }
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 }

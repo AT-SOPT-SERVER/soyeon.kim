@@ -1,5 +1,7 @@
 package org.sopt.validator;
 
+import org.sopt.common.exception.BusinessException;
+import org.sopt.exception.PostErrorCode;
 import org.sopt.repository.PostRepository;
 
 public class DuplicateTitleValidator implements PostValidationRule {
@@ -11,8 +13,8 @@ public class DuplicateTitleValidator implements PostValidationRule {
 
     @Override
     public void validate(String title) {
-        if (postRepository.existsByTitle(title)) {
-            throw new IllegalArgumentException("⚠️ 게시물 제목은 중복될 수 없습니다!");
+        if (postRepository.findPostByTitle(title).isPresent()) {
+            throw new BusinessException(PostErrorCode.TITLE_DUPLICATED);
         }
     }
 }

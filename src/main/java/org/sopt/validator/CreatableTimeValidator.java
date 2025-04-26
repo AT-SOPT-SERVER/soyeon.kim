@@ -3,7 +3,9 @@ package org.sopt.validator;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import org.sopt.common.exception.BusinessException;
 import org.sopt.domain.Post;
+import org.sopt.exception.PostErrorCode;
 import org.sopt.repository.PostRepository;
 
 public class CreatableTimeValidator implements PostValidationRule {
@@ -15,10 +17,10 @@ public class CreatableTimeValidator implements PostValidationRule {
 
     @Override
     public void validate(String title) {
-        Optional<Post> lastPost = postRepository.findLastPost();
+        Optional<Post> lastPost = postRepository.findFirstByOrderByCreatedAtDesc();
         if (lastPost.isPresent()
                 && Duration.between(lastPost.get().getCreatedAt(), LocalDateTime.now()).toMinutes() < 3) {
-            throw new IllegalStateException("⚠️ 3분이 지나야 새 글을 작성할 수 있습니다.");
+            throw new BusinessException(PostErrorCode.INVALID_CREATE_TIME);
         }
     }
 }
