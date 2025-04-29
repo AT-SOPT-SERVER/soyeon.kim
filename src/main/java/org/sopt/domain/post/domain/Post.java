@@ -18,14 +18,16 @@ public class Post {
 
     private String title;
 
+    private String content;
+
     private LocalDateTime createdAt;
 
     public Post() {
 
     }
 
-    public Post(String title) {
-        validateTitle(title);
+    public Post(String title, String content) {
+        validateAll(title, content);
         this.title = title;
         this.createdAt = LocalDateTime.now();
     }
@@ -34,9 +36,20 @@ public class Post {
         this.title = title;
     }
 
+    private void validateAll(String title, String content) {
+        validateTitle(title);
+        validateContent(content);
+    }
+
     private void validateTitle(String title) {
         isTitleBlank(title);
         isTitleLessThan30(title);
+    }
+
+    private void validateContent(String content) {
+        if(content.isBlank()) {
+            throw new BusinessException(PostErrorCode.INVALID_BLANK_CONTENT);
+        }
     }
 
     private void isTitleBlank(String title) {
@@ -57,6 +70,10 @@ public class Post {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public String getContent() {
+        return this.content;
     }
 
     public LocalDateTime getCreatedAt() {

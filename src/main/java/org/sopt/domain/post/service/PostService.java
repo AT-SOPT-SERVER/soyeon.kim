@@ -2,10 +2,11 @@ package org.sopt.domain.post.service;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.sopt.domain.post.dto.request.CreatePostRequest;
+import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
-import org.sopt.domain.post.dto.PostRequest;
-import org.sopt.domain.post.dto.PostResponse;
+import org.sopt.domain.post.dto.response.PostResponse;
 import org.sopt.domain.post.exception.PostErrorCode;
 import org.sopt.domain.post.repository.PostRepository;
 
@@ -24,11 +25,11 @@ public class PostService {
         this.postValidator = new PostValidator(postRepository);
     }
 
-    public Long createPost(PostRequest postRequest) {
-        String title = postRequest.title();
+    public Long createPost(CreatePostRequest createPostRequest) {
+        String title = createPostRequest.title();
 
         postValidator.validateAll(title);
-        Post post = new Post(title);
+        Post post = new Post(title, createPostRequest.content());
         postRepository.save(post);
 
         return post.getId();
@@ -60,7 +61,7 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePostTitle(Long id, PostRequest postRequest) {
+    public void updatePostTitle(Long id, UpdatePostRequest postRequest) {
         Optional<Post> post = postRepository.findPostById(id);
         if (post.isEmpty()) {
             throw new BusinessException(PostErrorCode.POST_NOT_FOUND);

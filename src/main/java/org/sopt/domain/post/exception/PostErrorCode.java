@@ -7,6 +7,7 @@ public enum PostErrorCode implements ErrorCode {
 
     // 400 BAD REQUEST
     INVALID_BLANK_TITLE(HttpStatus.BAD_REQUEST, "⚠️ 게시글 제목은 비워둘 수 없습니다!"),
+    INVALID_BLANK_CONTENT(HttpStatus.BAD_REQUEST, "⚠️ 게시글 내용은 비워둘 수 없습니다!"),
     INVALID_TITLE_LENGTH(HttpStatus.BAD_REQUEST, "⚠️ 게시글 제목은 30자를 넘을 수 없습니다!"),
     INVALID_CREATE_TIME(HttpStatus.BAD_REQUEST, "⚠️ 3분이 지나야 새 글을 작성할 수 있습니다."),
 

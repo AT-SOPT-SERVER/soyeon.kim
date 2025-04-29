@@ -2,9 +2,10 @@ package org.sopt.domain.post.controller;
 
 import java.net.URI;
 import java.util.List;
+import org.sopt.domain.post.dto.request.CreatePostRequest;
+import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.global.common.response.ApiResponse;
-import org.sopt.domain.post.dto.PostRequest;
-import org.sopt.domain.post.dto.PostResponse;
+import org.sopt.domain.post.dto.response.PostResponse;
 import org.sopt.domain.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,8 +28,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody final PostRequest postRequest) {
-        Long createdId = postService.createPost(postRequest);
+    public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody final CreatePostRequest createPostRequest) {
+        Long createdId = postService.createPost(createPostRequest);
         URI location = URI.create("/posts/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created());
@@ -59,8 +60,8 @@ public class PostController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> updatePostTitle(@PathVariable Long id,
-                                                             @RequestBody PostRequest postRequest) {
-        postService.updatePostTitle(id, postRequest);
+                                                             @RequestBody UpdatePostRequest updatePostRequest) {
+        postService.updatePostTitle(id, updatePostRequest);
 
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 수정했습니다.", null));
     }
