@@ -1,12 +1,12 @@
-package org.sopt.validator;
+package org.sopt.domain.post.validator;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
-import org.sopt.common.exception.BusinessException;
-import org.sopt.domain.Post;
-import org.sopt.exception.PostErrorCode;
-import org.sopt.repository.PostRepository;
+import org.sopt.global.error.BusinessException;
+import org.sopt.domain.post.domain.Post;
+import org.sopt.domain.post.exception.PostErrorCode;
+import org.sopt.domain.post.repository.PostRepository;
 
 public class CreatableTimeValidator implements PostValidationRule {
     private final PostRepository postRepository;

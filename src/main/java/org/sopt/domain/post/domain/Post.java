@@ -1,13 +1,13 @@
-package org.sopt.domain;
+package org.sopt.domain.post.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
-import org.sopt.common.exception.BusinessException;
-import org.sopt.common.util.GraphemeClusterUtil;
-import org.sopt.exception.PostErrorCode;
+import org.sopt.global.error.BusinessException;
+import org.sopt.global.util.GraphemeClusterUtil;
+import org.sopt.domain.post.exception.PostErrorCode;
 
 @Entity
 public class Post {

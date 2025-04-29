@@ -1,11 +1,11 @@
-package org.sopt.controller;
+package org.sopt.domain.post.controller;
 
 import java.net.URI;
 import java.util.List;
-import org.sopt.common.response.ApiResponse;
-import org.sopt.dto.PostRequest;
-import org.sopt.dto.PostResponse;
-import org.sopt.service.PostService;
+import org.sopt.global.common.response.ApiResponse;
+import org.sopt.domain.post.dto.PostRequest;
+import org.sopt.domain.post.dto.PostResponse;
+import org.sopt.domain.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

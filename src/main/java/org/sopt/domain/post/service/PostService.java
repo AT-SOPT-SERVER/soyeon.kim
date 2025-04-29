@@ -1,16 +1,16 @@
-package org.sopt.service;
+package org.sopt.domain.post.service;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.sopt.common.exception.BusinessException;
-import org.sopt.domain.Post;
-import org.sopt.dto.PostRequest;
-import org.sopt.dto.PostResponse;
-import org.sopt.exception.PostErrorCode;
-import org.sopt.repository.PostRepository;
+import org.sopt.global.error.BusinessException;
+import org.sopt.domain.post.domain.Post;
+import org.sopt.domain.post.dto.PostRequest;
+import org.sopt.domain.post.dto.PostResponse;
+import org.sopt.domain.post.exception.PostErrorCode;
+import org.sopt.domain.post.repository.PostRepository;
 
 import java.util.List;
-import org.sopt.validator.PostValidator;
+import org.sopt.domain.post.validator.PostValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
