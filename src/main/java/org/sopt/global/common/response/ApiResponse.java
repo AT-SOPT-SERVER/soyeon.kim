@@ -1,4 +1,4 @@
-package org.sopt.common.response;
+package org.sopt.global.common.response;
 
 public class ApiResponse<T> {
 

@@ -1,4 +1,4 @@
-package org.sopt.common.exception;
+package org.sopt.global.error;
 
 public class BusinessException extends RuntimeException {
 
