@@ -1,10 +1,14 @@
 package org.sopt.domain.post.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
+import org.sopt.domain.user.domain.User;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
 import org.sopt.domain.post.exception.PostErrorCode;
@@ -16,6 +20,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String title;
 
     private String content;
@@ -26,9 +34,11 @@ public class Post {
 
     }
 
-    public Post(String title, String content) {
+    public Post(User user, String title, String content) {
         validateAll(title, content);
+        this.user = user;
         this.title = title;
+        this.content = content;
         this.createdAt = LocalDateTime.now();
     }
 

@@ -4,6 +4,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
+import org.sopt.domain.user.domain.User;
+import org.sopt.domain.user.exception.UserErrorCode;
+import org.sopt.domain.user.repository.UserRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
 import org.sopt.domain.post.dto.response.PostResponse;
@@ -19,18 +22,25 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
+    private final UserRepository userRepository;
 
-    public PostService(PostRepository postRepository) {
+    public PostService(PostRepository postRepository, UserRepository userRepository) {
         this.postRepository = postRepository;
         this.postValidator = new PostValidator(postRepository);
+        this.userRepository = userRepository;
     }
 
-    public Long createPost(CreatePostRequest createPostRequest) {
-        String title = createPostRequest.title();
+    @Transactional
+    public Long createPost(Long userId, CreatePostRequest createPostRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
+        String title = createPostRequest.title();
         postValidator.validateAll(title);
-        Post post = new Post(title, createPostRequest.content());
+        Post post = new Post(user, title, createPostRequest.content());
         postRepository.save(post);
+
+        user.getPosts().add(post);
 
         return post.getId();
     }

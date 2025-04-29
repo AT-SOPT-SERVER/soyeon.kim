@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,10 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createPost(@RequestBody final CreatePostRequest createPostRequest) {
-        Long createdId = postService.createPost(createPostRequest);
+    public ResponseEntity<ApiResponse<Void>> createPost(
+            @RequestHeader Long userId,
+            @RequestBody final CreatePostRequest createPostRequest) {
+        Long createdId = postService.createPost(userId, createPostRequest);
         URI location = URI.create("/posts/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created());
