@@ -57,20 +57,31 @@ public class Post {
     }
 
     private void validateContent(String content) {
-        if(content.isBlank()) {
-            throw new BusinessException(PostErrorCode.INVALID_BLANK_CONTENT);
-        }
+        isContentBlank(content);
+        isContentLessThan1000(content);
     }
 
     private void isTitleBlank(String title) {
         if (title.isBlank()) {
-            throw new BusinessException(PostErrorCode.INVALID_BLANK_TITLE);
+            throw new BusinessException(PostErrorCode.INVALID_TITLE_BLANK);
         }
     }
 
     private void isTitleLessThan30(String title) {
         if (GraphemeClusterUtil.countGraphemeClusters(title) > 30) {
             throw new BusinessException(PostErrorCode.INVALID_TITLE_LENGTH);
+        }
+    }
+
+    private void isContentBlank(String content) {
+        if (content.isBlank()) {
+            throw new BusinessException(PostErrorCode.INVALID_CONTENT_BLANK);
+        }
+    }
+
+    private void isContentLessThan1000(String content) {
+        if (GraphemeClusterUtil.countGraphemeClusters(content) > 1000) {
+            throw new BusinessException(PostErrorCode.INVALID_CONTENT_LENGTH);
         }
     }
 
