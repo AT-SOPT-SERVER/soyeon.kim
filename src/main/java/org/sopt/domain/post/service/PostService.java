@@ -7,7 +7,6 @@ import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.domain.post.dto.response.GetAllPostsResponse;
 import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
 import org.sopt.domain.post.dto.response.GetSimplePostResponse;
-import org.sopt.domain.post.dto.response.SearchPostResponse;
 import org.sopt.domain.post.dto.response.SearchResultResponse;
 import org.sopt.domain.user.domain.User;
 import org.sopt.domain.user.exception.UserErrorCode;
@@ -85,41 +84,19 @@ public class PostService {
     }
 
     public SearchResultResponse searchPostsByKeyword(String keyword, String type) {
-        return switch (type) {
-            case "title" -> searchPostsByTitle(keyword);
-            case "user" -> searchPostsByUser(keyword);
-            case "tag" -> searchPostsByTag(keyword);
+        List<Post> posts = switch (type) {
+            case "title" -> postRepository.findPostsByTitleContaining(keyword);
+            case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
+            case "tag" -> postRepository.findPostsByTagContaining(keyword);
             default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
         };
+
+        return SearchResultResponse.from(posts);
     }
 
     private void validateIsWriter(Long userId, Post post) {
         if (!post.getUser().getId().equals(userId)) {
             throw new BusinessException(PostErrorCode.POST_UPDATE_UNAUTHORIZED);
         }
-    }
-
-    private SearchResultResponse searchPostsByTitle(String keyword) {
-        List<Post> posts = postRepository.findPostsByTitleContaining(keyword);
-
-        return new SearchResultResponse(posts.stream()
-                .map(SearchPostResponse::from)
-                .collect(Collectors.toList()));
-    }
-
-    private SearchResultResponse searchPostsByUser(String keyword) {
-        List<Post> posts = postRepository.findPostsByUser_nameContaining(keyword);
-
-        return new SearchResultResponse(posts.stream()
-                .map(SearchPostResponse::from)
-                .collect(Collectors.toList()));
-    }
-
-    private SearchResultResponse searchPostsByTag(String keyword) {
-        List<Post> posts = postRepository.findPostsByTagContaining(keyword);
-
-        return new SearchResultResponse(posts.stream()
-                .map(SearchPostResponse::from)
-                .collect(Collectors.toList()));
     }
 }
