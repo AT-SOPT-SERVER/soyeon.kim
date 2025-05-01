@@ -59,16 +59,22 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deletePostById(@PathVariable Long id) {
-        postService.deletePostById(id);
+    public ResponseEntity<ApiResponse<Void>> deletePostById(
+            @RequestHeader Long userId,
+            @PathVariable Long id
+    ) {
+        postService.deletePostById(userId, id);
 
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 삭제했습니다.", null));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> updatePostTitle(@PathVariable Long id,
-                                                             @RequestBody UpdatePostRequest updatePostRequest) {
-        postService.updatePostTitle(id, updatePostRequest);
+    public ResponseEntity<ApiResponse<Void>> updatePostTitle(
+            @RequestHeader Long userId,
+            @PathVariable Long id,
+            @RequestBody UpdatePostRequest updatePostRequest
+    ) {
+        postService.updatePostTitle(userId, id, updatePostRequest);
 
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 수정했습니다.", null));
     }

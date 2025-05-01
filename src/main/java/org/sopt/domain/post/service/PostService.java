@@ -1,6 +1,5 @@
 package org.sopt.domain.post.service;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 import org.sopt.domain.post.domain.Tag;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
@@ -59,32 +58,30 @@ public class PostService {
     }
 
     public GetDetailedPostResponse getPostById(Long id) {
-        Optional<Post> post = postRepository.findPostById(id);
-        if (post.isEmpty()) {
-            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
-        }
+        Post post = postRepository.findPostById(id)
+                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
 
-        return GetDetailedPostResponse.from(post.get());
+        return GetDetailedPostResponse.from(post);
     }
 
     @Transactional
-    public void deletePostById(Long id) {
-        if (!postRepository.existsById(id)) {
-            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
-        }
+    public void deletePostById(Long userId, Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+        validateIsWriter(userId, post);
+
         postRepository.deleteById(id);
     }
 
     @Transactional
-    public void updatePostTitle(Long id, UpdatePostRequest postRequest) {
-        Optional<Post> post = postRepository.findPostById(id);
-        if (post.isEmpty()) {
-            throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
-        }
+    public void updatePostTitle(Long userId, Long id, UpdatePostRequest postRequest) {
+        Post post = postRepository.findPostById(id)
+                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+        validateIsWriter(userId, post);
 
         String title = postRequest.title();
         postValidator.validateAll(title);
-        post.get().updateTitle(title);
+        post.updateTitle(title);
     }
 
     public SearchResultResponse searchPostsByKeyword(String keyword, String type) {
@@ -94,6 +91,12 @@ public class PostService {
             case "tag" -> searchPostsByTag(keyword);
             default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
         };
+    }
+
+    private void validateIsWriter(Long userId, Post post) {
+        if (!post.getUser().getId().equals(userId)) {
+            throw new BusinessException(PostErrorCode.POST_UPDATE_UNAUTHORIZED);
+        }
     }
 
     private SearchResultResponse searchPostsByTitle(String keyword) {
