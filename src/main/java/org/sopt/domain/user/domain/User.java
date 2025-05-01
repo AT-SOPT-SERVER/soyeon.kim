@@ -10,6 +10,7 @@ import java.util.List;
 import org.sopt.domain.post.domain.Post;
 import org.sopt.domain.user.exception.UserErrorCode;
 import org.sopt.global.error.BusinessException;
+import org.sopt.global.util.GraphemeClusterUtil;
 
 @Entity
 public class User {
@@ -33,8 +34,19 @@ public class User {
     }
 
     private void validateName(String name) {
+        isNameBlank(name);
+        isNameLessThan10(name);
+    }
+
+    private void isNameBlank(String name) {
         if (name.isBlank()) {
             throw new BusinessException(UserErrorCode.INVALID_NAME_BLANK);
+        }
+    }
+
+    private void isNameLessThan10(String name) {
+        if (GraphemeClusterUtil.countGraphemeClusters(name) > 10) {
+            throw new BusinessException(UserErrorCode.INVALID_NAME_LENGTH);
         }
     }
 
