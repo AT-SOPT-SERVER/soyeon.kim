@@ -35,6 +35,8 @@ public class PostService {
 
     @Transactional
     public Long createPost(Long userId, CreatePostRequest createPostRequest) {
+        // TODO userId Null 인 경우
+
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
@@ -67,7 +69,7 @@ public class PostService {
     public void deletePostById(Long userId, Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
-        validateIsWriter(userId, post);
+        validateCanDelete(userId, post);
 
         postRepository.deleteById(id);
     }
@@ -76,7 +78,7 @@ public class PostService {
     public void updatePostTitle(Long userId, Long id, UpdatePostRequest postRequest) {
         Post post = postRepository.findPostById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
-        validateIsWriter(userId, post);
+        validateCanUpdate(userId, post);
 
         String title = postRequest.title();
         postValidator.validateAll(title);
@@ -87,14 +89,20 @@ public class PostService {
         List<Post> posts = switch (type) {
             case "title" -> postRepository.findPostsByTitleContaining(keyword);
             case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
-            case "tag" -> postRepository.findPostsByTagContaining(keyword);
+            case "tag" -> postRepository.findPostsByTag(Tag.fromKoreanName(keyword));
             default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
         };
 
         return SearchResultResponse.from(posts);
     }
 
-    private void validateIsWriter(Long userId, Post post) {
+    private void validateCanDelete(Long userId, Post post) {
+        if (!post.getUser().getId().equals(userId)) {
+            throw new BusinessException(PostErrorCode.POST_DELETE_UNAUTHORIZED);
+        }
+    }
+
+    private void validateCanUpdate(Long userId, Post post) {
         if (!post.getUser().getId().equals(userId)) {
             throw new BusinessException(PostErrorCode.POST_UPDATE_UNAUTHORIZED);
         }
