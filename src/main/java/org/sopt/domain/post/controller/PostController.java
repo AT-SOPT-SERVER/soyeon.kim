@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
+import org.sopt.domain.post.dto.response.GetPostsResponse;
 import org.sopt.global.common.response.ApiResponse;
 import org.sopt.domain.post.dto.response.PostResponse;
 import org.sopt.domain.post.service.PostService;
@@ -39,7 +40,8 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<PostResponse>>> getAllPosts(@RequestParam(required = false) String search) {
+    public ResponseEntity<ApiResponse<List<GetPostsResponse>>> getAllPosts(
+            @RequestParam(required = false) String search) {
         if (search == null || search.isBlank()) {
             return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts()));
         }

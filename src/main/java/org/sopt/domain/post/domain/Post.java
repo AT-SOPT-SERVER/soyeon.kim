@@ -86,6 +86,10 @@ public class Post {
         return this.content;
     }
 
+    public User getUser() {
+        return this.user;
+    }
+
     public LocalDateTime getCreatedAt() {
         return this.createdAt;
     }

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findFirstByOrderByCreatedAtDesc();
 
+    List<Post> findAllByOrderByCreatedAtDesc();
+
     Optional<Post> findPostById(Long id);
 
     Optional<Post> findPostByTitle(String title);
