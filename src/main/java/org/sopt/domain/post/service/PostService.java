@@ -35,13 +35,12 @@ public class PostService {
 
     @Transactional
     public Long createPost(Long userId, CreatePostRequest createPostRequest) {
-        // TODO userId Null 인 경우
-
+        validateMissingUser(userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
         String title = createPostRequest.title();
-        postValidator.validateAll(title);
+        postValidator.validateAll(userId, title);
         Post post = new Post(user, title, createPostRequest.content(), Tag.fromKoreanName(createPostRequest.tag()));
         postRepository.save(post);
 
@@ -67,6 +66,7 @@ public class PostService {
 
     @Transactional
     public void deletePostById(Long userId, Long id) {
+        validateMissingUser(userId);
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanDelete(userId, post);
@@ -76,12 +76,13 @@ public class PostService {
 
     @Transactional
     public void updatePostTitle(Long userId, Long id, UpdatePostRequest postRequest) {
+        validateMissingUser(userId);
         Post post = postRepository.findPostById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanUpdate(userId, post);
 
         String title = postRequest.title();
-        postValidator.validateAll(title);
+        postValidator.validateAll(userId, title);
         post.updateTitle(title);
     }
 
@@ -94,6 +95,12 @@ public class PostService {
         };
 
         return SearchResultResponse.from(posts);
+    }
+
+    private void validateMissingUser(Long userId) {
+        if (userId == null) {
+            throw new BusinessException(PostErrorCode.UNAUTHORIZED_USER);
+        }
     }
 
     private void validateCanDelete(Long userId, Post post) {

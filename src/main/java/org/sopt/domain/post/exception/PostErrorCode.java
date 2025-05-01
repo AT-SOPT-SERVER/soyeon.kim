@@ -14,6 +14,9 @@ public enum PostErrorCode implements ErrorCode {
     INVALID_SEARCH_TYPE(HttpStatus.BAD_REQUEST, "⚠️ 검색 타입이 잘못되었습니다."),
     INVALID_TAG_TYPE(HttpStatus.BAD_REQUEST, "⚠️ 존재하지 않는 타입입니다."),
 
+    // 401 Unauthorized
+    UNAUTHORIZED_USER(HttpStatus.UNAUTHORIZED, "⚠️ 유저 인증이 필요합니다."),
+
     // 403 Forbidden
     POST_DELETE_UNAUTHORIZED(HttpStatus.FORBIDDEN, "⚠️ 해당 게시글을 삭제할 권한이 없습니다."),
     POST_UPDATE_UNAUTHORIZED(HttpStatus.FORBIDDEN, "⚠️ 해당 게시글을 수정할 권한이 없습니다."),

@@ -31,7 +31,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createPost(
-            @RequestHeader Long userId,
+            @RequestHeader(required = false) Long userId,
             @RequestBody final CreatePostRequest createPostRequest) {
         Long createdId = postService.createPost(userId, createPostRequest);
         URI location = URI.create("/posts/" + createdId);
@@ -60,7 +60,7 @@ public class PostController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> deletePostById(
-            @RequestHeader Long userId,
+            @RequestHeader(required = false) Long userId,
             @PathVariable Long id
     ) {
         postService.deletePostById(userId, id);
@@ -70,7 +70,7 @@ public class PostController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> updatePostTitle(
-            @RequestHeader Long userId,
+            @RequestHeader(required = false) Long userId,
             @PathVariable Long id,
             @RequestBody UpdatePostRequest updatePostRequest
     ) {

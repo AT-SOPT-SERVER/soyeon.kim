@@ -16,8 +16,8 @@ public class CreatableTimeValidator implements PostValidationRule {
     }
 
     @Override
-    public void validate(String title) {
-        Optional<Post> lastPost = postRepository.findFirstByOrderByCreatedAtDesc();
+    public void validate(Long userId, String title) {
+        Optional<Post> lastPost = postRepository.findFirstByUser_IdOrderByCreatedAtDesc(userId);
         if (lastPost.isPresent()
                 && Duration.between(lastPost.get().getCreatedAt(), LocalDateTime.now()).toMinutes() < 3) {
             throw new BusinessException(PostErrorCode.INVALID_CREATE_TIME);

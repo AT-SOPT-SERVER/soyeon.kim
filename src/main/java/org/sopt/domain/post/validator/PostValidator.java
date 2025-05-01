@@ -13,9 +13,9 @@ public class PostValidator {
         );
     }
 
-    public void validateAll(String title) {
+    public void validateAll(Long userId, String title) {
         for (PostValidationRule rule : rules) {
-            rule.validate(title);
+            rule.validate(userId, title);
         }
     }
 }

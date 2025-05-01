@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findFirstByOrderByCreatedAtDesc();
+    Optional<Post> findFirstByUser_IdOrderByCreatedAtDesc(Long userId);
 
     List<Post> findAllByOrderByCreatedAtDesc();
 
