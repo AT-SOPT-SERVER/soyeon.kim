@@ -12,6 +12,7 @@ public enum PostErrorCode implements ErrorCode {
     INVALID_CONTENT_LENGTH(HttpStatus.BAD_REQUEST, "⚠️ 게시글 제목은 1,000자를 넘을 수 없습니다!"),
     INVALID_CREATE_TIME(HttpStatus.BAD_REQUEST, "⚠️ 3분이 지나야 새 글을 작성할 수 있습니다."),
     INVALID_SEARCH_TYPE(HttpStatus.BAD_REQUEST, "⚠️ 검색 타입이 잘못되었습니다."),
+    INVALID_TAG_TYPE(HttpStatus.BAD_REQUEST, "⚠️ 존재하지 않는 타입입니다."),
 
     // 404 NOT FOUND
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "⚠️ 해당 게시글을 찾을 수 없습니다!"),

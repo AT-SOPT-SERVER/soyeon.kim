@@ -1,6 +1,8 @@
 package org.sopt.domain.post.domain;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,17 +30,21 @@ public class Post {
 
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    private Tag tag;
+
     private LocalDateTime createdAt;
 
     public Post() {
 
     }
 
-    public Post(User user, String title, String content) {
+    public Post(User user, String title, String content, Tag tag) {
         validateAll(title, content);
         this.user = user;
         this.title = title;
         this.content = content;
+        this.tag = tag;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -99,6 +105,10 @@ public class Post {
 
     public User getUser() {
         return this.user;
+    }
+
+    public Tag getTag() {
+        return tag;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -2,6 +2,7 @@ package org.sopt.domain.post.service;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.sopt.domain.post.domain.Tag;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.domain.post.dto.response.GetAllPostsResponse;
@@ -41,7 +42,7 @@ public class PostService {
 
         String title = createPostRequest.title();
         postValidator.validateAll(title);
-        Post post = new Post(user, title, createPostRequest.content());
+        Post post = new Post(user, title, createPostRequest.content(), Tag.fromKoreanName(createPostRequest.tag()));
         postRepository.save(post);
 
         user.getPosts().add(post);
@@ -87,14 +88,12 @@ public class PostService {
     }
 
     public SearchResultResponse searchPostsByKeyword(String keyword, String type) {
-        if (type.equals("title")) {
-            return searchPostsByTitle(keyword);
-        }
-        if (type.equals("user")) {
-            return searchPostsByUser(keyword);
-        }
-
-        throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
+        return switch (type) {
+            case "title" -> searchPostsByTitle(keyword);
+            case "user" -> searchPostsByUser(keyword);
+            case "tag" -> searchPostsByTag(keyword);
+            default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
+        };
     }
 
     private SearchResultResponse searchPostsByTitle(String keyword) {
@@ -106,7 +105,15 @@ public class PostService {
     }
 
     private SearchResultResponse searchPostsByUser(String keyword) {
-        List<Post> posts = postRepository.findPostsByUserContaining(keyword);
+        List<Post> posts = postRepository.findPostsByUser_nameContaining(keyword);
+
+        return new SearchResultResponse(posts.stream()
+                .map(SearchPostResponse::from)
+                .collect(Collectors.toList()));
+    }
+
+    private SearchResultResponse searchPostsByTag(String keyword) {
+        List<Post> posts = postRepository.findPostsByTagContaining(keyword);
 
         return new SearchResultResponse(posts.stream()
                 .map(SearchPostResponse::from)
