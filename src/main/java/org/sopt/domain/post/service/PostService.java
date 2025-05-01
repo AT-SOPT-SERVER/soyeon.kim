@@ -65,7 +65,7 @@ public class PostService {
 
     @Transactional
     public void deletePostById(Long id) {
-        if (postRepository.findById(id).isEmpty()) {
+        if (!postRepository.existsById(id)) {
             throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
         }
         postRepository.deleteById(id);

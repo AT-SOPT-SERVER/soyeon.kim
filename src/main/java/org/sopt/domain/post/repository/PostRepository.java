@@ -18,6 +18,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findPostByTitle(String title);
 
     List<Post> findPostsByTitleContaining(String keyword);
-
-    void deleteById(@NonNull Long id);
 }
