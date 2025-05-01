@@ -4,13 +4,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
+import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
 import org.sopt.domain.post.dto.response.GetPostsResponse;
 import org.sopt.domain.user.domain.User;
 import org.sopt.domain.user.exception.UserErrorCode;
 import org.sopt.domain.user.repository.UserRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
-import org.sopt.domain.post.dto.response.PostResponse;
 import org.sopt.domain.post.exception.PostErrorCode;
 import org.sopt.domain.post.repository.PostRepository;
 
@@ -54,13 +54,13 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public PostResponse getPostById(Long id) {
+    public GetDetailedPostResponse getPostById(Long id) {
         Optional<Post> post = postRepository.findPostById(id);
         if (post.isEmpty()) {
             throw new BusinessException(PostErrorCode.POST_NOT_FOUND);
         }
 
-        return PostResponse.from(post.get());
+        return GetDetailedPostResponse.from(post.get());
     }
 
     @Transactional
@@ -85,7 +85,6 @@ public class PostService {
 
     // TODO 서비스 코드 getAll 과 합칠지 고민해 보기
     // TODO 작성자로도 검색할 수 있게! or 조건으로 추가하기
-    //
     public List<GetPostsResponse> searchPostsByKeyword(String keyword) {
         List<Post> posts = postRepository.findPostsByTitleContaining(keyword);
 

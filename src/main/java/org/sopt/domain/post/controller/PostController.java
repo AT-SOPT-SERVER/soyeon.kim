@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.List;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
+import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
 import org.sopt.domain.post.dto.response.GetPostsResponse;
 import org.sopt.global.common.response.ApiResponse;
-import org.sopt.domain.post.dto.response.PostResponse;
 import org.sopt.domain.post.service.PostService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -52,7 +52,7 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<GetDetailedPostResponse>> getPostById(@PathVariable Long id) {
         return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 조회했습니다.", postService.getPostById(id)));
     }
 
