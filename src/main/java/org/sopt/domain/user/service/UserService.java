@@ -1,7 +1,7 @@
 package org.sopt.domain.user.service;
 
 import org.sopt.domain.user.domain.User;
-import org.sopt.domain.user.dto.CreateUserRequest;
+import org.sopt.domain.user.dto.request.CreateUserRequest;
 import org.sopt.domain.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 

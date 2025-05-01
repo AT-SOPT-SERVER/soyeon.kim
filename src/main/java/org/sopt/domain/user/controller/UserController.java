@@ -2,7 +2,7 @@ package org.sopt.domain.user.controller;
 
 import java.net.URI;
 import org.sopt.global.common.response.ApiResponse;
-import org.sopt.domain.user.dto.CreateUserRequest;
+import org.sopt.domain.user.dto.request.CreateUserRequest;
 import org.sopt.domain.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
