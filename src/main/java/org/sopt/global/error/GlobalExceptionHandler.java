@@ -1,38 +1,41 @@
 package org.sopt.global.error;
 
-import org.sopt.global.common.response.ErrorResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.sopt.global.response.ApiResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(NoHandlerFoundException ex) {
-        ErrorResponse response = new ErrorResponse(GlobalErrorCode.RESOURCE_NOT_FOUND);
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    public ApiResponse<Void> handleNotFound(NoHandlerFoundException ex) {
+        log.warn("NoHandlerFoundException 발생: {}", ex.getMessage());
+
+        return new ApiResponse<>(GlobalErrorCode.RESOURCE_NOT_FOUND);
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
+    public ApiResponse<Void> handleBusinessException(BusinessException ex) {
         ErrorCode errorCode = ex.getErrorCode();
-        ErrorResponse response = new ErrorResponse(errorCode);
-        return new ResponseEntity<>(response, errorCode.getStatus());
+
+        return new ApiResponse<>(errorCode);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        ErrorResponse response = new ErrorResponse(GlobalErrorCode.BAD_REQUEST);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ApiResponse<Void> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        log.warn("MethodArgumentTypeMismatchException 발생: {}", ex.getMessage());
+
+        return new ApiResponse<>(GlobalErrorCode.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleUnhandledException(Exception ex) {
-        ErrorResponse response = new ErrorResponse(GlobalErrorCode.INTERNAL_SERVER_ERROR);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ApiResponse<Void> handleUnhandledException(Exception ex) {
+        log.warn("서버 내부 오류 발생: {}", ex.getMessage());
+
+        return new ApiResponse<>(GlobalErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

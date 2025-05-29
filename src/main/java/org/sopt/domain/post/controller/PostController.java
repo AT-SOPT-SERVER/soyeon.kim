@@ -1,14 +1,14 @@
 package org.sopt.domain.post.controller;
 
-import java.net.URI;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.domain.post.dto.response.GetAllPostsResponse;
 import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
 import org.sopt.domain.post.dto.response.SearchResultResponse;
-import org.sopt.global.common.response.ApiResponse;
+import org.sopt.global.response.ApiResponse;
 import org.sopt.domain.post.service.PostService;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -30,52 +30,51 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> createPost(
+    public ApiResponse<Void> createPost(
             @RequestHeader(required = false) Long userId,
             @RequestBody final CreatePostRequest createPostRequest) {
         Long createdId = postService.createPost(userId, createPostRequest);
-        URI location = URI.create("/posts/" + createdId);
 
-        return ResponseEntity.created(location).body(ApiResponse.created());
+        return new ApiResponse<>(HttpStatus.CREATED, "성공적으로 " + createdId + "번 게시글을 저장했습니다.");
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
-        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts()));
+    public ApiResponse<GetAllPostsResponse> getAllPosts() {
+        return new ApiResponse<>(HttpStatus.OK, "성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts());
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ApiResponse<SearchResultResponse>> searchPostsByKeyword(
+    public ApiResponse<SearchResultResponse> searchPostsByKeyword(
             @RequestParam String keyword,
             @RequestParam String type
     ) {
-        return ResponseEntity.ok(
-                ApiResponse.ok("✅ 성공적으로 게시물을 검색했습니다.", postService.searchPostsByKeyword(keyword, type)));
+        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 검색했습니다.",
+                postService.searchPostsByKeyword(keyword, type));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<GetDetailedPostResponse>> getPostById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 조회했습니다.", postService.getPostById(id)));
+    public ApiResponse<GetDetailedPostResponse> getPostById(@PathVariable Long id) {
+        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 조회했습니다.", postService.getPostById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deletePostById(
+    public ApiResponse<Void> deletePostById(
             @RequestHeader(required = false) Long userId,
             @PathVariable Long id
     ) {
         postService.deletePostById(userId, id);
 
-        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 삭제했습니다.", null));
+        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 삭제했습니다.");
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> updatePostTitle(
+    public ApiResponse<Void> updatePostTitle(
             @RequestHeader(required = false) Long userId,
             @PathVariable Long id,
             @RequestBody UpdatePostRequest updatePostRequest
     ) {
         postService.updatePostTitle(userId, id, updatePostRequest);
 
-        return ResponseEntity.ok(ApiResponse.ok("✅ 성공적으로 게시물을 수정했습니다.", null));
+        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 수정했습니다.");
     }
 }

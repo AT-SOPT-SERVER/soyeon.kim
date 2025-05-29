@@ -1,10 +1,10 @@
 package org.sopt.domain.user.controller;
 
-import java.net.URI;
-import org.sopt.global.common.response.ApiResponse;
+import org.sopt.global.response.ApiResponse;
 import org.sopt.domain.user.dto.request.CreateUserRequest;
 import org.sopt.domain.user.service.UserService;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +21,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> signUp(@RequestBody CreateUserRequest createUserRequest) {
+    public ApiResponse<Void> signUp(@RequestBody CreateUserRequest createUserRequest) {
         Long createdId = userService.createUser(createUserRequest);
-        URI location = URI.create("/users/" + createdId);
 
-        return ResponseEntity.created(location).body(ApiResponse.created());
+        return new ApiResponse<>(HttpStatus.CREATED, "성공적으로 " + createdId + "번 유저를 생성했습니다.");
     }
 }
