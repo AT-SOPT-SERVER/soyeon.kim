@@ -9,14 +9,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.domain.user.domain.User;
+import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
-import org.sopt.domain.post.exception.PostErrorCode;
+import org.sopt.domain.post.controller.exception.PostErrorCode;
 
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Post {
+public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,19 +38,12 @@ public class Post {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
-    private LocalDateTime createdAt;
-
-    public Post() {
-
-    }
-
     public Post(User user, String title, String content, Tag tag) {
         validateAll(title, content);
         this.user = user;
         this.title = title;
         this.content = content;
         this.tag = tag;
-        this.createdAt = LocalDateTime.now();
     }
 
     public void updateTitle(String title) {
@@ -89,29 +87,5 @@ public class Post {
         if (GraphemeClusterUtil.countGraphemeClusters(content) > 1000) {
             throw new BusinessException(PostErrorCode.INVALID_CONTENT_LENGTH);
         }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public User getUser() {
-        return this.user;
-    }
-
-    public Tag getTag() {
-        return tag;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
     }
 }

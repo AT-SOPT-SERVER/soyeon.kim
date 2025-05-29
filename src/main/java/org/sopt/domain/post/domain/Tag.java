@@ -1,7 +1,7 @@
 package org.sopt.domain.post.domain;
 
 import java.util.Arrays;
-import org.sopt.domain.post.exception.PostErrorCode;
+import org.sopt.domain.post.controller.exception.PostErrorCode;
 import org.sopt.global.error.BusinessException;
 
 public enum Tag {

@@ -39,12 +39,10 @@ public class PostService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
-        String title = createPostRequest.title();
+        String title = createPostRequest.getTitle();
         postValidator.validateAll(userId, title);
-        Post post = new Post(user, title, createPostRequest.content(), Tag.fromKoreanName(createPostRequest.tag()));
+        Post post = new Post(user, title, createPostRequest.getContent(), Tag.fromKoreanName(createPostRequest.getTag()));
         postRepository.save(post);
-
-        user.getPosts().add(post);
 
         return post.getId();
     }
@@ -81,7 +79,7 @@ public class PostService {
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanUpdate(userId, post);
 
-        String title = postRequest.title();
+        String title = postRequest.getTitle();
         postValidator.validateAll(userId, title);
         post.updateTitle(title);
     }
