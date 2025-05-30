@@ -44,8 +44,6 @@ public class PostService {
         Post post = new Post(user, title, createPostRequest.content(), Tag.fromKoreanName(createPostRequest.tag()));
         postRepository.save(post);
 
-        user.getPosts().add(post);
-
         return post.getId();
     }
 
