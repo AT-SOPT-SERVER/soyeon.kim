@@ -1,5 +1,14 @@
 package org.sopt.domain.post.controller;
 
+import static org.sopt.domain.post.message.PostMessage.CREATED_SUCCESS;
+import static org.sopt.domain.post.message.PostMessage.DELETED_SUCCESS;
+import static org.sopt.domain.post.message.PostMessage.RETRIEVED_ALL_SUCCESS;
+import static org.sopt.domain.post.message.PostMessage.RETRIEVED_SUCCESS;
+import static org.sopt.domain.post.message.PostMessage.SEARCHED_SUCCESS;
+import static org.sopt.domain.post.message.PostMessage.UPDATED_SUCCESS;
+
+import java.net.URI;
+import lombok.RequiredArgsConstructor;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
 import org.sopt.domain.post.dto.request.UpdatePostRequest;
 import org.sopt.domain.post.dto.response.GetAllPostsResponse;
@@ -8,7 +17,7 @@ import org.sopt.domain.post.dto.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.domain.post.service.PostService;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,60 +29,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/posts")
+@RequestMapping("/api/v1/posts")
+@RequiredArgsConstructor
 @RestController
 public class PostController {
+
     private final PostService postService;
 
-    public PostController(PostService postService) {
-        this.postService = postService;
-    }
-
     @PostMapping
-    public ApiResponse<Void> createPost(
+    public ResponseEntity<ApiResponse<Void>> createPost(
         @RequestHeader(required = false) Long userId,
-        @RequestBody final CreatePostRequest createPostRequest) {
+        @RequestBody final CreatePostRequest createPostRequest
+    ) {
         Long createdId = postService.createPost(userId, createPostRequest);
+        URI location = URI.create("/api/v1/posts/" + createdId);
 
-        return ApiResponse.created("성공적으로 " + createdId + "번 게시글을 저장했습니다.");
+        return ResponseEntity.created(location).body(ApiResponse.created(CREATED_SUCCESS));
     }
 
     @GetMapping
-    public ApiResponse<GetAllPostsResponse> getAllPosts() {
-        return ApiResponse.ok("성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts());
+    public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
+        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, postService.getAllPosts()));
     }
 
     @GetMapping("/search")
-    public ApiResponse<SearchResultResponse> searchPostsByKeyword(
+    public ResponseEntity<ApiResponse<SearchResultResponse>> searchPostsByKeyword(
         @RequestParam String keyword,
         @RequestParam String type
     ) {
-        return ApiResponse.ok("성공적으로 게시물을 검색했습니다.", postService.searchPostsByKeyword(keyword, type));
+        return ResponseEntity.ok(ApiResponse.ok(SEARCHED_SUCCESS, postService.searchPostsByKeyword(keyword, type)));
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<GetDetailedPostResponse> getPostById(@PathVariable Long id) {
-        return ApiResponse.ok("성공적으로 게시물을 조회했습니다.", postService.getPostById(id));
+    public ResponseEntity<ApiResponse<GetDetailedPostResponse>> getPostById(@PathVariable Long id) {
+        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, postService.getPostById(id)));
     }
 
     @DeleteMapping("/{id}")
-    public ApiResponse<Void> deletePostById(
+    public ResponseEntity<ApiResponse<Void>> deletePostById(
         @RequestHeader(required = false) Long userId,
         @PathVariable Long id
     ) {
         postService.deletePostById(userId, id);
 
-        return ApiResponse.ok("성공적으로 게시물을 삭제했습니다.");
+        return ResponseEntity.ok(ApiResponse.ok(DELETED_SUCCESS));
     }
 
     @PatchMapping("/{id}")
-    public ApiResponse<Void> updatePostTitle(
+    public ResponseEntity<ApiResponse<Void>> updatePostTitle(
         @RequestHeader(required = false) Long userId,
         @PathVariable Long id,
         @RequestBody UpdatePostRequest updatePostRequest
     ) {
         postService.updatePostTitle(userId, id, updatePostRequest);
 
-        return ApiResponse.ok("성공적으로 게시물을 수정했습니다.");
+        return ResponseEntity.ok(ApiResponse.ok(UPDATED_SUCCESS));
     }
 }
