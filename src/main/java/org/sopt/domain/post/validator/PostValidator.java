@@ -2,7 +2,9 @@ package org.sopt.domain.post.validator;
 
 import java.util.List;
 import org.sopt.domain.post.infrastructure.repository.PostRepository;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PostValidator {
     private final List<PostValidationRule> rules;
 
