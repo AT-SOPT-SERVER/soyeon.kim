@@ -1,4 +1,4 @@
-package org.sopt.domain.post.dto.request;
+package org.sopt.domain.post.controller.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

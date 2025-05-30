@@ -1,4 +1,4 @@
-package org.sopt.domain.post.dto.response;
+package org.sopt.domain.post.controller.response;
 
 import java.util.List;
 import java.util.stream.Collectors;
