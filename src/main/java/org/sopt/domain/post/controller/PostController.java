@@ -31,50 +31,49 @@ public class PostController {
 
     @PostMapping
     public ApiResponse<Void> createPost(
-            @RequestHeader(required = false) Long userId,
-            @RequestBody final CreatePostRequest createPostRequest) {
+        @RequestHeader(required = false) Long userId,
+        @RequestBody final CreatePostRequest createPostRequest) {
         Long createdId = postService.createPost(userId, createPostRequest);
 
-        return new ApiResponse<>(HttpStatus.CREATED, "성공적으로 " + createdId + "번 게시글을 저장했습니다.");
+        return ApiResponse.created("성공적으로 " + createdId + "번 게시글을 저장했습니다.");
     }
 
     @GetMapping
     public ApiResponse<GetAllPostsResponse> getAllPosts() {
-        return new ApiResponse<>(HttpStatus.OK, "성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts());
+        return ApiResponse.ok("성공적으로 전체 게시물을 조회했습니다.", postService.getAllPosts());
     }
 
     @GetMapping("/search")
     public ApiResponse<SearchResultResponse> searchPostsByKeyword(
-            @RequestParam String keyword,
-            @RequestParam String type
+        @RequestParam String keyword,
+        @RequestParam String type
     ) {
-        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 검색했습니다.",
-                postService.searchPostsByKeyword(keyword, type));
+        return ApiResponse.ok("성공적으로 게시물을 검색했습니다.", postService.searchPostsByKeyword(keyword, type));
     }
 
     @GetMapping("/{id}")
     public ApiResponse<GetDetailedPostResponse> getPostById(@PathVariable Long id) {
-        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 조회했습니다.", postService.getPostById(id));
+        return ApiResponse.ok("성공적으로 게시물을 조회했습니다.", postService.getPostById(id));
     }
 
     @DeleteMapping("/{id}")
     public ApiResponse<Void> deletePostById(
-            @RequestHeader(required = false) Long userId,
-            @PathVariable Long id
+        @RequestHeader(required = false) Long userId,
+        @PathVariable Long id
     ) {
         postService.deletePostById(userId, id);
 
-        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 삭제했습니다.");
+        return ApiResponse.ok("성공적으로 게시물을 삭제했습니다.");
     }
 
     @PatchMapping("/{id}")
     public ApiResponse<Void> updatePostTitle(
-            @RequestHeader(required = false) Long userId,
-            @PathVariable Long id,
-            @RequestBody UpdatePostRequest updatePostRequest
+        @RequestHeader(required = false) Long userId,
+        @PathVariable Long id,
+        @RequestBody UpdatePostRequest updatePostRequest
     ) {
         postService.updatePostTitle(userId, id, updatePostRequest);
 
-        return new ApiResponse<>(HttpStatus.OK, "성공적으로 게시물을 수정했습니다.");
+        return ApiResponse.ok("성공적으로 게시물을 수정했습니다.");
     }
 }

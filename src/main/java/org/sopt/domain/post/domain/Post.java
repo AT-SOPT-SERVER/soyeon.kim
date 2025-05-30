@@ -9,7 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.sopt.domain.user.domain.User;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
@@ -17,6 +19,7 @@ import org.sopt.global.util.GraphemeClusterUtil;
 import org.sopt.domain.post.exception.PostErrorCode;
 
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post extends BaseEntity {
 
@@ -34,10 +37,6 @@ public class Post extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private Tag tag;
-
-    public Post() {
-
-    }
 
     public Post(User user, String title, String content, Tag tag) {
         validateAll(title, content);

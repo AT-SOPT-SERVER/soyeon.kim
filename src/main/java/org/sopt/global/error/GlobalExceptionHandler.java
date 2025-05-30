@@ -15,27 +15,27 @@ public class GlobalExceptionHandler {
     public ApiResponse<Void> handleNotFound(NoHandlerFoundException ex) {
         log.warn("NoHandlerFoundException 발생: {}", ex.getMessage());
 
-        return new ApiResponse<>(GlobalErrorCode.RESOURCE_NOT_FOUND);
+        return ApiResponse.error(GlobalErrorCode.RESOURCE_NOT_FOUND);
     }
 
     @ExceptionHandler(BusinessException.class)
     public ApiResponse<Void> handleBusinessException(BusinessException ex) {
         ErrorCode errorCode = ex.getErrorCode();
 
-        return new ApiResponse<>(errorCode);
+        return ApiResponse.error(errorCode);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ApiResponse<Void> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.warn("MethodArgumentTypeMismatchException 발생: {}", ex.getMessage());
 
-        return new ApiResponse<>(GlobalErrorCode.BAD_REQUEST);
+        return ApiResponse.error(GlobalErrorCode.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public ApiResponse<Void> handleUnhandledException(Exception ex) {
         log.warn("서버 내부 오류 발생: {}", ex.getMessage());
 
-        return new ApiResponse<>(GlobalErrorCode.INTERNAL_SERVER_ERROR);
+        return ApiResponse.error(GlobalErrorCode.INTERNAL_SERVER_ERROR);
     }
 }

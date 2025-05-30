@@ -24,6 +24,6 @@ public class UserController {
     public ApiResponse<Void> signUp(@RequestBody CreateUserRequest createUserRequest) {
         Long createdId = userService.createUser(createUserRequest);
 
-        return new ApiResponse<>(HttpStatus.CREATED, "성공적으로 " + createdId + "번 유저를 생성했습니다.");
+        return ApiResponse.created("성공적으로 " + createdId + "번 유저를 생성했습니다.");
     }
 }
