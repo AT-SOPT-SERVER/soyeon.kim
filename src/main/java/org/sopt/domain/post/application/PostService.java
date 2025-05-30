@@ -38,14 +38,9 @@ public class PostService {
         String title = serviceRequest.getTitle();
         postValidator.validateAll(userId, title);
 
-        Post post = new Post(
-            user,
-            title,
-            serviceRequest.getContent(),
-            Tag.fromKoreanName(serviceRequest.getTag())
-        );
-
+        Post post = new Post(user, title, serviceRequest.getContent(), Tag.fromKoreanName(serviceRequest.getTag()));
         postRepository.save(post);
+
         return post.getId();
     }
 
@@ -58,7 +53,7 @@ public class PostService {
     }
 
     public GetDetailedPostResponse getPostById(Long id) {
-        Post post = postRepository.findPostById(id)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
 
         return GetDetailedPostResponse.from(post);
@@ -77,7 +72,7 @@ public class PostService {
     @Transactional
     public void updatePostTitle(Long userId, Long id, UpdatePostRequest postRequest) {
         validateMissingUser(userId);
-        Post post = postRepository.findPostById(id)
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanUpdate(userId, post);
 
