@@ -5,6 +5,7 @@ import org.sopt.global.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -23,17 +24,24 @@ public class GlobalExceptionHandler {
                    .body(ApiResponse.error(errorCode));
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException ex) {
-        log.error("MethodArgumentNotValidException 발생: {}", ex.getMessage());
-        String message = ex.getBindingResult()
-                             .getAllErrors()
-                             .get(0)
-                             .getDefaultMessage();
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    public ResponseEntity<ApiResponse<Void>> handleMissingRequestException(MissingRequestHeaderException ex) {
+        log.error("요청 헤더 {}가 누락되었습니다.", ex.getHeaderName());
+        String message = GlobalErrorCode.MISSING_HEADER.format(ex.getHeaderName());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(400, message));
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException ex) {
+        String message = ex.getBindingResult()
+                             .getAllErrors()
+                             .get(0)
+                             .getDefaultMessage();
+        log.error("MethodArgumentNotValidException 발생: {}", message);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(400, message));
+    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<Void>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
