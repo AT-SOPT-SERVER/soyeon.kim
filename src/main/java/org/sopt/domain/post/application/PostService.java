@@ -14,7 +14,7 @@ import org.sopt.domain.user.repository.UserRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
 import org.sopt.domain.post.presentation.exception.PostErrorCode;
-import org.sopt.domain.post.repository.PostRepository;
+import org.sopt.domain.post.infrastructure.PostRepository;
 
 import java.util.List;
 import org.sopt.domain.post.validator.PostValidator;

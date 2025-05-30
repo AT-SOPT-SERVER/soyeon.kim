@@ -1,4 +1,4 @@
-package org.sopt.domain.post.repository;
+package org.sopt.domain.post.infrastructure;
 
 import java.util.List;
 import java.util.Optional;
