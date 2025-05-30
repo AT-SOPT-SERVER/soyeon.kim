@@ -7,6 +7,7 @@ import static org.sopt.domain.post.message.PostMessage.RETRIEVED_SUCCESS;
 import static org.sopt.domain.post.message.PostMessage.SEARCHED_SUCCESS;
 import static org.sopt.domain.post.message.PostMessage.UPDATED_SUCCESS;
 
+import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.domain.post.dto.request.CreatePostRequest;
@@ -39,7 +40,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createPost(
         @RequestHeader(required = false) Long userId,
-        @RequestBody final CreatePostRequest createPostRequest
+        @Valid @RequestBody final CreatePostRequest createPostRequest
     ) {
         Long createdId = postService.createPost(userId, createPostRequest);
         URI location = URI.create("/api/v1/posts/" + createdId);
@@ -79,7 +80,7 @@ public class PostController {
     public ResponseEntity<ApiResponse<Void>> updatePostTitle(
         @RequestHeader(required = false) Long userId,
         @PathVariable Long id,
-        @RequestBody UpdatePostRequest updatePostRequest
+        @Valid @RequestBody UpdatePostRequest updatePostRequest
     ) {
         postService.updatePostTitle(userId, id, updatePostRequest);
 

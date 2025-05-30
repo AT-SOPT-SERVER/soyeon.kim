@@ -23,19 +23,23 @@ public class GlobalExceptionHandler {
                    .body(ApiResponse.error(errorCode));
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException ex) {
+        log.error("MethodArgumentNotValidException 발생: {}", ex.getMessage());
+        String message = ex.getBindingResult()
+                             .getAllErrors()
+                             .get(0)
+                             .getDefaultMessage();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ApiResponse.error(400, message));
+    }
+
+
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ApiResponse<Void>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
         log.error("MethodArgumentTypeMismatchException 발생: {}", ex.getMessage());
 
         return ResponseEntity.status(GlobalErrorCode.BAD_REQUEST.getStatus())
-                   .body(ApiResponse.error(GlobalErrorCode.BAD_REQUEST));
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Void>> handleValidationException(MethodArgumentNotValidException ex) {
-        log.error("MethodArgumentNotValidException 발생: {}", ex.getMessage());
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                    .body(ApiResponse.error(GlobalErrorCode.BAD_REQUEST));
     }
 
