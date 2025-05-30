@@ -1,19 +1,19 @@
-package org.sopt.domain.post.service;
+package org.sopt.domain.post.application;
 
 import java.util.stream.Collectors;
 import org.sopt.domain.post.domain.Tag;
-import org.sopt.domain.post.dto.request.CreatePostRequest;
-import org.sopt.domain.post.dto.request.UpdatePostRequest;
-import org.sopt.domain.post.dto.response.GetAllPostsResponse;
-import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
-import org.sopt.domain.post.dto.response.GetSimplePostResponse;
-import org.sopt.domain.post.dto.response.SearchResultResponse;
+import org.sopt.domain.post.presentation.request.CreatePostRequest;
+import org.sopt.domain.post.presentation.request.UpdatePostRequest;
+import org.sopt.domain.post.presentation.response.GetAllPostsResponse;
+import org.sopt.domain.post.presentation.response.GetDetailedPostResponse;
+import org.sopt.domain.post.presentation.response.GetSimplePostResponse;
+import org.sopt.domain.post.presentation.response.SearchResultResponse;
 import org.sopt.domain.user.domain.User;
 import org.sopt.domain.user.exception.UserErrorCode;
 import org.sopt.domain.user.repository.UserRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
-import org.sopt.domain.post.exception.PostErrorCode;
+import org.sopt.domain.post.presentation.exception.PostErrorCode;
 import org.sopt.domain.post.repository.PostRepository;
 
 import java.util.List;
