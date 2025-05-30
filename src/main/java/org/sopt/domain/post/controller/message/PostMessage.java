@@ -1,4 +1,4 @@
-package org.sopt.domain.post.message;
+package org.sopt.domain.post.controller.message;
 
 public class PostMessage {
     public static final String CREATED_SUCCESS = "성공적으로 게시글을 등록했습니다.";

@@ -1,22 +1,22 @@
 package org.sopt.domain.post.controller;
 
-import static org.sopt.domain.post.message.PostMessage.CREATED_SUCCESS;
-import static org.sopt.domain.post.message.PostMessage.DELETED_SUCCESS;
-import static org.sopt.domain.post.message.PostMessage.RETRIEVED_ALL_SUCCESS;
-import static org.sopt.domain.post.message.PostMessage.RETRIEVED_SUCCESS;
-import static org.sopt.domain.post.message.PostMessage.SEARCHED_SUCCESS;
-import static org.sopt.domain.post.message.PostMessage.UPDATED_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.CREATED_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.DELETED_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.RETRIEVED_ALL_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.RETRIEVED_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.SEARCHED_SUCCESS;
+import static org.sopt.domain.post.controller.message.PostMessage.UPDATED_SUCCESS;
 
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
-import org.sopt.domain.post.dto.request.CreatePostRequest;
-import org.sopt.domain.post.dto.request.UpdatePostRequest;
-import org.sopt.domain.post.dto.response.GetAllPostsResponse;
-import org.sopt.domain.post.dto.response.GetDetailedPostResponse;
-import org.sopt.domain.post.dto.response.SearchResultResponse;
+import org.sopt.domain.post.controller.request.CreatePostRequest;
+import org.sopt.domain.post.controller.request.UpdatePostRequest;
+import org.sopt.domain.post.controller.response.GetAllPostsResponse;
+import org.sopt.domain.post.controller.response.GetDetailedPostResponse;
+import org.sopt.domain.post.controller.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
-import org.sopt.domain.post.service.PostService;
+import org.sopt.domain.post.application.PostService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
