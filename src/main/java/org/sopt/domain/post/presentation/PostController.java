@@ -10,6 +10,8 @@ import static org.sopt.domain.post.presentation.message.PostMessage.UPDATED_SUCC
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import org.sopt.domain.post.application.request.CreatePostServiceRequest;
+import org.sopt.domain.post.presentation.mapper.PostRequestMapper;
 import org.sopt.domain.post.presentation.request.CreatePostRequest;
 import org.sopt.domain.post.presentation.request.UpdatePostRequest;
 import org.sopt.domain.post.presentation.response.GetAllPostsResponse;
@@ -42,7 +44,8 @@ public class PostController {
         @RequestHeader(required = false) Long userId,
         @Valid @RequestBody final CreatePostRequest createPostRequest
     ) {
-        Long createdId = postService.createPost(userId, createPostRequest);
+        CreatePostServiceRequest serviceRequest = PostRequestMapper.toCreatePostServiceRequest(createPostRequest);
+        Long createdId = postService.createPost(userId, serviceRequest);
         URI location = URI.create("/api/v1/posts/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created(CREATED_SUCCESS));

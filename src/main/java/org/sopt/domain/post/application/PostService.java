@@ -1,8 +1,9 @@
 package org.sopt.domain.post.application;
 
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.sopt.domain.post.application.request.CreatePostServiceRequest;
 import org.sopt.domain.post.domain.Tag;
-import org.sopt.domain.post.presentation.request.CreatePostRequest;
 import org.sopt.domain.post.presentation.request.UpdatePostRequest;
 import org.sopt.domain.post.presentation.response.GetAllPostsResponse;
 import org.sopt.domain.post.presentation.response.GetDetailedPostResponse;
@@ -21,29 +22,30 @@ import org.sopt.domain.post.validator.PostValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@RequiredArgsConstructor
 @Service
 public class PostService {
     private final PostRepository postRepository;
     private final PostValidator postValidator;
     private final UserRepository userRepository;
 
-    public PostService(PostRepository postRepository, UserRepository userRepository) {
-        this.postRepository = postRepository;
-        this.postValidator = new PostValidator(postRepository);
-        this.userRepository = userRepository;
-    }
-
     @Transactional
-    public Long createPost(Long userId, CreatePostRequest createPostRequest) {
+    public Long createPost(Long userId, CreatePostServiceRequest serviceRequest) {
         validateMissingUser(userId);
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
 
-        String title = createPostRequest.getTitle();
+        String title = serviceRequest.getTitle();
         postValidator.validateAll(userId, title);
-        Post post = new Post(user, title, createPostRequest.getContent(), Tag.fromKoreanName(createPostRequest.getTag()));
-        postRepository.save(post);
 
+        Post post = new Post(
+            user,
+            title,
+            serviceRequest.getContent(),
+            Tag.fromKoreanName(serviceRequest.getTag())
+        );
+
+        postRepository.save(post);
         return post.getId();
     }
 
