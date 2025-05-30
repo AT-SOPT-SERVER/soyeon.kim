@@ -2,7 +2,7 @@ package org.sopt.domain.post.validator;
 
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.presentation.exception.PostErrorCode;
-import org.sopt.domain.post.infrastructure.PostRepository;
+import org.sopt.domain.post.infrastructure.repository.PostRepository;
 
 public class DuplicateTitleValidator implements PostValidationRule {
     private final PostRepository postRepository;

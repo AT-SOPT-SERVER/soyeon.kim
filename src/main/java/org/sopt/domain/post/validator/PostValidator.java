@@ -1,7 +1,7 @@
 package org.sopt.domain.post.validator;
 
 import java.util.List;
-import org.sopt.domain.post.infrastructure.PostRepository;
+import org.sopt.domain.post.infrastructure.repository.PostRepository;
 
 public class PostValidator {
     private final List<PostValidationRule> rules;

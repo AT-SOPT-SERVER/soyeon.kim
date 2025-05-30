@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
 import org.sopt.domain.post.presentation.exception.PostErrorCode;
-import org.sopt.domain.post.infrastructure.PostRepository;
+import org.sopt.domain.post.infrastructure.repository.PostRepository;
 
 public class CreatableTimeValidator implements PostValidationRule {
     private final PostRepository postRepository;
