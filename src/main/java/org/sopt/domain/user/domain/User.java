@@ -10,7 +10,7 @@ import lombok.Getter;
 
 import lombok.NoArgsConstructor;
 import org.sopt.domain.user.exception.UserErrorCode;
-import org.sopt.global.BaseEntity;
+import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
 

@@ -9,10 +9,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import org.sopt.domain.user.domain.User;
-import org.sopt.global.BaseEntity;
+import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
 import org.sopt.domain.post.exception.PostErrorCode;
@@ -36,8 +35,6 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
-    private LocalDateTime createdAt;
-
     public Post() {
 
     }
@@ -48,7 +45,6 @@ public class Post extends BaseEntity {
         this.title = title;
         this.content = content;
         this.tag = tag;
-        this.createdAt = LocalDateTime.now();
     }
 
     public void updateTitle(String title) {
