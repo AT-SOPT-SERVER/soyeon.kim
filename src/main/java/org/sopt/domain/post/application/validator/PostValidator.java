@@ -1,6 +1,8 @@
-package org.sopt.domain.post.validator;
+package org.sopt.domain.post.application.validator;
 
 import java.util.List;
+import org.sopt.domain.post.application.validator.rule.CreatableTimeValidator;
+import org.sopt.domain.post.application.validator.rule.DuplicateTitleValidator;
 import org.sopt.domain.post.infrastructure.repository.PostRepository;
 import org.springframework.stereotype.Component;
 

@@ -1,8 +1,9 @@
-package org.sopt.domain.post.validator;
+package org.sopt.domain.post.application.validator.rule;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import org.sopt.domain.post.application.validator.PostValidationRule;
 import org.sopt.global.error.BusinessException;
 import org.sopt.domain.post.domain.Post;
 import org.sopt.domain.post.presentation.exception.PostErrorCode;

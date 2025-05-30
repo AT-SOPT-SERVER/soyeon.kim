@@ -18,7 +18,7 @@ import org.sopt.domain.post.presentation.exception.PostErrorCode;
 import org.sopt.domain.post.infrastructure.repository.PostRepository;
 
 import java.util.List;
-import org.sopt.domain.post.validator.PostValidator;
+import org.sopt.domain.post.application.validator.PostValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
