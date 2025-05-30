@@ -1,4 +1,4 @@
-package org.sopt.domain.post.controller.response;
+package org.sopt.domain.post.presentation.response;
 
 import java.util.List;
 

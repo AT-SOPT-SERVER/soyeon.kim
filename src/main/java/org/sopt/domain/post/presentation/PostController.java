@@ -1,20 +1,20 @@
-package org.sopt.domain.post.controller;
+package org.sopt.domain.post.presentation;
 
-import static org.sopt.domain.post.controller.message.PostMessage.CREATED_SUCCESS;
-import static org.sopt.domain.post.controller.message.PostMessage.DELETED_SUCCESS;
-import static org.sopt.domain.post.controller.message.PostMessage.RETRIEVED_ALL_SUCCESS;
-import static org.sopt.domain.post.controller.message.PostMessage.RETRIEVED_SUCCESS;
-import static org.sopt.domain.post.controller.message.PostMessage.SEARCHED_SUCCESS;
-import static org.sopt.domain.post.controller.message.PostMessage.UPDATED_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.CREATED_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.DELETED_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.RETRIEVED_ALL_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.RETRIEVED_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.SEARCHED_SUCCESS;
+import static org.sopt.domain.post.presentation.message.PostMessage.UPDATED_SUCCESS;
 
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
-import org.sopt.domain.post.controller.request.CreatePostRequest;
-import org.sopt.domain.post.controller.request.UpdatePostRequest;
-import org.sopt.domain.post.controller.response.GetAllPostsResponse;
-import org.sopt.domain.post.controller.response.GetDetailedPostResponse;
-import org.sopt.domain.post.controller.response.SearchResultResponse;
+import org.sopt.domain.post.presentation.request.CreatePostRequest;
+import org.sopt.domain.post.presentation.request.UpdatePostRequest;
+import org.sopt.domain.post.presentation.response.GetAllPostsResponse;
+import org.sopt.domain.post.presentation.response.GetDetailedPostResponse;
+import org.sopt.domain.post.presentation.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.domain.post.application.PostService;
 
