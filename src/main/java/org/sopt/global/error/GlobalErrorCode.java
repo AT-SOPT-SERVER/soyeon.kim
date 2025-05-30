@@ -6,6 +6,7 @@ public enum GlobalErrorCode implements ErrorCode {
 
     // 400 Bad Request
     BAD_REQUEST(HttpStatus.BAD_REQUEST, "⚠️ 요청 경로의 파라미터는 올바른 형식이 아닙니다."),
+    MISSING_HEADER(HttpStatus.BAD_REQUEST, "⚠️ 요청 헤더 '%s'가 누락되었습니다."),
 
     // 404 Not Found
     RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "⚠️ 존재하지 않는 리소스입니다."),
@@ -29,5 +30,9 @@ public enum GlobalErrorCode implements ErrorCode {
     @Override
     public String getMessage() {
         return message;
+    }
+
+    public String format(Object... args) {
+        return String.format(this.message, args);
     }
 }
