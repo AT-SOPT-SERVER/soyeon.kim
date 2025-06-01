@@ -1,11 +1,13 @@
 package org.sopt.user.presentation;
 
+import static org.sopt.user.presentation.mapper.UserRequestMapper.toCreateUserServiceRequest;
 import static org.sopt.user.presentation.message.UserMessage.CREATED_SUCCESS;
 
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.response.ApiResponse;
+import org.sopt.user.application.dto.request.CreateUserServiceRequest;
 import org.sopt.user.presentation.dto.request.CreateUserRequest;
 import org.sopt.user.application.UserService;
 
@@ -24,7 +26,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> signUp(@Valid @RequestBody CreateUserRequest createUserRequest) {
-        Long createdId = userService.createUser(createUserRequest);
+        CreateUserServiceRequest serviceRequest = toCreateUserServiceRequest(createUserRequest);
+        Long createdId = userService.createUser(serviceRequest);
         URI location = URI.create("/api/v1/users/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created(CREATED_SUCCESS));

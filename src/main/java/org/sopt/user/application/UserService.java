@@ -1,7 +1,7 @@
 package org.sopt.user.application;
 
+import org.sopt.user.application.dto.request.CreateUserServiceRequest;
 import org.sopt.user.domain.User;
-import org.sopt.user.presentation.dto.request.CreateUserRequest;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,8 +14,8 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public Long createUser(CreateUserRequest createUserRequest) {
-        User user = new User(createUserRequest.getName());
+    public Long createUser(CreateUserServiceRequest createUserServiceRequest) {
+        User user = new User(createUserServiceRequest.name());
         userRepository.save(user);
 
         return user.getId();
