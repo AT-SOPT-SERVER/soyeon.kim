@@ -54,6 +54,21 @@ public class PostService {
         return new GetAllPostsServiceResponse(result);
     }
 
+    public SearchResultServiceResponse searchPostsByKeyword(String keyword, String type) {
+        List<Post> posts = switch (type) {
+            case "title" -> postRepository.findPostsByTitleContaining(keyword);
+            case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
+            case "tag" -> postRepository.findPostsByTag(Tag.fromKoreanName(keyword));
+            default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
+        };
+
+        List<SearchPostServiceResponse> result = posts.stream()
+                                                     .map(SearchPostServiceResponse::from)
+                                                     .toList();
+
+        return new SearchResultServiceResponse(result);
+    }
+
     public GetDetailedPostResponse getPostById(Long id) {
         Post post = postRepository.findById(id)
                         .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
@@ -81,21 +96,6 @@ public class PostService {
         String title = postRequest.getTitle();
         postValidator.validateAll(userId, title);
         post.updateTitle(title);
-    }
-
-    public SearchResultServiceResponse searchPostsByKeyword(String keyword, String type) {
-        List<Post> posts = switch (type) {
-            case "title" -> postRepository.findPostsByTitleContaining(keyword);
-            case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
-            case "tag" -> postRepository.findPostsByTag(Tag.fromKoreanName(keyword));
-            default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
-        };
-
-        List<SearchPostServiceResponse> result = posts.stream()
-                                              .map(SearchPostServiceResponse::from)
-                                              .toList();
-
-        return new SearchResultServiceResponse(result);
     }
 
     private void validateMissingUser(Long userId) {
