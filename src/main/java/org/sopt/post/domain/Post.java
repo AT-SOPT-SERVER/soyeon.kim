@@ -74,7 +74,7 @@ public class Post extends BaseEntity {
     }
 
     private void isTitleBlank(String title) {
-        if (title.isBlank()) {
+        if (title == null || title.isBlank()) {
             throw new BusinessException(PostErrorCode.INVALID_TITLE_BLANK);
         }
     }
@@ -86,7 +86,7 @@ public class Post extends BaseEntity {
     }
 
     private void isContentBlank(String content) {
-        if (content.isBlank()) {
+        if (content == null || content.isBlank()) {
             throw new BusinessException(PostErrorCode.INVALID_CONTENT_BLANK);
         }
     }
