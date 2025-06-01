@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class PostService {
+
     private final PostRepository postRepository;
     private final PostValidator postValidator;
     private final UserRepository userRepository;

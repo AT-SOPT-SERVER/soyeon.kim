@@ -7,6 +7,7 @@ import org.sopt.global.error.BusinessException;
 
 @Getter
 public enum Tag {
+
     BACKEND("백엔드"),
     DATABASE("데이터베이스"),
     INFRA("인프라");

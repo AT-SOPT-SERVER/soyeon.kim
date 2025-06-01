@@ -19,5 +19,4 @@ public record GetDetailedPostServiceResponse(
             post.getContent()
         );
     }
-
 }

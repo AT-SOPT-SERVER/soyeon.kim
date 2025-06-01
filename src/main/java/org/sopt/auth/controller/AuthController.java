@@ -39,8 +39,8 @@ public class AuthController {
 
     @GetMapping("/set-cookie") // 원래는 이거 받아와야 되는데 dto 대신 임시로 만들어주기
     public ResponseEntity<String> setCookie(
-            HttpServletRequest request,
-            HttpServletResponse response) {
+        HttpServletRequest request,
+        HttpServletResponse response) {
         String username = "userSopt";
         String password = "sopt1234";
 
@@ -61,8 +61,8 @@ public class AuthController {
     // 아까처럼 인코딩 디코딩 안 해도 됨!
     @GetMapping("/get-cookie")
     public ResponseEntity<String> getCookie(
-            @CookieValue("userId") String userId,
-            @CookieValue("password") String password
+        @CookieValue("userId") String userId,
+        @CookieValue("password") String password
     ) {
         return ResponseEntity.ok("받은 쿠키) userId: " + userId + "\n받은 쿠키) password: " + password);
     }
@@ -78,5 +78,4 @@ public class AuthController {
         }
         throw new RuntimeException("");
     }
-
 }

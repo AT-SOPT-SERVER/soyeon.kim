@@ -4,6 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class GraphemeClusterUtil {
+
     private static final Pattern GRAPHEME_PATTERN = Pattern.compile("\\X");
 
     public static int countGraphemeClusters(String text) {

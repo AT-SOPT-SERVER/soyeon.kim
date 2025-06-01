@@ -8,12 +8,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PostValidator {
+
     private final List<PostValidationRule> rules;
 
     public PostValidator(PostRepository postRepository) {
         this.rules = List.of(
-                new DuplicateTitleValidator(postRepository),
-                new CreatableTimeValidator(postRepository)
+            new DuplicateTitleValidator(postRepository),
+            new CreatableTimeValidator(postRepository)
         );
     }
 

@@ -6,6 +6,7 @@ import org.sopt.post.presentation.exception.PostErrorCode;
 import org.sopt.post.infrastructure.repository.PostRepository;
 
 public class DuplicateTitleValidator implements PostValidationRule {
+
     private final PostRepository postRepository;
 
     public DuplicateTitleValidator(PostRepository postRepository) {

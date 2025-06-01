@@ -10,6 +10,7 @@ import org.sopt.post.presentation.exception.PostErrorCode;
 import org.sopt.post.infrastructure.repository.PostRepository;
 
 public class CreatableTimeValidator implements PostValidationRule {
+
     private final PostRepository postRepository;
 
     public CreatableTimeValidator(PostRepository postRepository) {
