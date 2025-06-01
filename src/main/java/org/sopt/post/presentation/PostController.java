@@ -1,5 +1,7 @@
 package org.sopt.post.presentation;
 
+import static org.sopt.post.presentation.mapper.PostRequestMapper.toCreatePostServiceRequest;
+import static org.sopt.post.presentation.mapper.PostRequestMapper.toUpdatePostServiceRequest;
 import static org.sopt.post.presentation.message.PostMessage.CREATED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.DELETED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.RETRIEVED_ALL_SUCCESS;
@@ -11,7 +13,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.request.CreatePostServiceRequest;
-import org.sopt.post.presentation.mapper.PostRequestMapper;
+import org.sopt.post.application.request.UpdatePostServiceRequest;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
@@ -44,7 +46,7 @@ public class PostController {
         @RequestHeader(required = false) Long userId,
         @Valid @RequestBody final CreatePostRequest createPostRequest
     ) {
-        CreatePostServiceRequest serviceRequest = PostRequestMapper.toCreatePostServiceRequest(createPostRequest);
+        CreatePostServiceRequest serviceRequest = toCreatePostServiceRequest(createPostRequest);
         Long createdId = postService.createPost(userId, serviceRequest);
         URI location = URI.create("/api/v1/posts/" + createdId);
 
@@ -85,7 +87,8 @@ public class PostController {
         @PathVariable Long id,
         @Valid @RequestBody UpdatePostRequest updatePostRequest
     ) {
-        postService.updatePostTitle(userId, id, updatePostRequest);
+        UpdatePostServiceRequest updatePostServiceRequest = toUpdatePostServiceRequest(updatePostRequest);
+        postService.updatePostTitle(userId, id, updatePostServiceRequest);
 
         return ResponseEntity.ok(ApiResponse.ok(UPDATED_SUCCESS));
     }

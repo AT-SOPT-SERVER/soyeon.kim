@@ -3,6 +3,7 @@ package org.sopt.post.application;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.request.CreatePostServiceRequest;
+import org.sopt.post.application.request.UpdatePostServiceRequest;
 import org.sopt.post.domain.Tag;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
@@ -70,7 +71,7 @@ public class PostService {
     }
 
     @Transactional
-    public void updatePostTitle(Long userId, Long id, UpdatePostRequest postRequest) {
+    public void updatePostTitle(Long userId, Long id, UpdatePostServiceRequest postRequest) {
         validateMissingUser(userId);
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));

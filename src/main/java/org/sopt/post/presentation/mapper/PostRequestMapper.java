@@ -1,7 +1,9 @@
 package org.sopt.post.presentation.mapper;
 
 import org.sopt.post.application.request.CreatePostServiceRequest;
+import org.sopt.post.application.request.UpdatePostServiceRequest;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
+import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 
 public class PostRequestMapper {
 
@@ -12,4 +14,11 @@ public class PostRequestMapper {
                    .tag(createPostRequest.getTag())
                    .build();
     }
+
+    public static UpdatePostServiceRequest toUpdatePostServiceRequest(UpdatePostRequest updatePostRequest) {
+        return UpdatePostServiceRequest.builder()
+                   .title(updatePostRequest.getTitle())
+                   .build();
+    }
+
 }
