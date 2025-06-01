@@ -2,6 +2,7 @@ package org.sopt.post.presentation;
 
 import static org.sopt.post.presentation.mapper.PostRequestMapper.toCreatePostServiceRequest;
 import static org.sopt.post.presentation.mapper.PostRequestMapper.toUpdatePostServiceRequest;
+import static org.sopt.post.presentation.mapper.PostResponseMapper.toGetAllPostsResponse;
 import static org.sopt.post.presentation.message.PostMessage.CREATED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.DELETED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.RETRIEVED_ALL_SUCCESS;
@@ -14,6 +15,7 @@ import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
+import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
@@ -55,7 +57,10 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
-        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, postService.getAllPosts()));
+        GetAllPostsServiceResponse serviceResult = postService.getAllPosts();
+        GetAllPostsResponse response = toGetAllPostsResponse(serviceResult);
+
+        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, response));
     }
 
     @GetMapping("/search")

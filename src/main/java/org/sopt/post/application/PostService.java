@@ -1,13 +1,12 @@
 package org.sopt.post.application;
 
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
+import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
+import org.sopt.post.application.dto.response.GetSimplePostServiceResponse;
 import org.sopt.post.domain.Tag;
-import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
 import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
-import org.sopt.post.presentation.dto.response.GetSimplePostResponse;
 import org.sopt.post.presentation.dto.response.SearchResultResponse;
 import org.sopt.user.domain.User;
 import org.sopt.user.presentation.exception.UserErrorCode;
@@ -44,17 +43,19 @@ public class PostService {
         return post.getId();
     }
 
-    public GetAllPostsResponse getAllPosts() {
+    public GetAllPostsServiceResponse getAllPosts() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
 
-        return new GetAllPostsResponse(posts.stream()
-                .map(GetSimplePostResponse::from)
-                .collect(Collectors.toList()));
+        List<GetSimplePostServiceResponse> result = posts.stream()
+                                                        .map(GetSimplePostServiceResponse::from)
+                                                        .toList();
+
+        return new GetAllPostsServiceResponse(result);
     }
 
     public GetDetailedPostResponse getPostById(Long id) {
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
 
         return GetDetailedPostResponse.from(post);
     }
@@ -63,7 +64,7 @@ public class PostService {
     public void deletePostById(Long userId, Long id) {
         validateMissingUser(userId);
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanDelete(userId, post);
 
         postRepository.deleteById(id);
@@ -73,7 +74,7 @@ public class PostService {
     public void updatePostTitle(Long userId, Long id, UpdatePostServiceRequest postRequest) {
         validateMissingUser(userId);
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+                        .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
         validateCanUpdate(userId, post);
 
         String title = postRequest.getTitle();
