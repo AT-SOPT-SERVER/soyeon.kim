@@ -1,11 +1,13 @@
 package org.sopt.post.presentation.mapper;
 
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
+import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
 import org.sopt.post.application.dto.response.GetSimplePostServiceResponse;
 import org.sopt.post.application.dto.response.SearchPostServiceResponse;
 import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.presentation.dto.response.AuthorResponse;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
+import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
 import org.sopt.post.presentation.dto.response.GetSimplePostResponse;
 import org.sopt.post.presentation.dto.response.SearchPostResponse;
 import org.sopt.post.presentation.dto.response.SearchResultResponse;
@@ -25,6 +27,17 @@ public class PostResponseMapper {
             searchResultServiceResponse.results().stream()
                 .map(PostResponseMapper::toSearchPostResponse)
                 .toList()
+        );
+    }
+
+    public static GetDetailedPostResponse toGetDetailedPostResponse(
+        GetDetailedPostServiceResponse getDetailedPostServiceResponse
+    ) {
+        return new GetDetailedPostResponse(
+            getDetailedPostServiceResponse.id(),
+            AuthorResponse.from(getDetailedPostServiceResponse.authorId(), getDetailedPostServiceResponse.authorName()),
+            getDetailedPostServiceResponse.title(),
+            getDetailedPostServiceResponse.content()
         );
     }
 

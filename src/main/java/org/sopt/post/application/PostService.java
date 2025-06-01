@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
+import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
 import org.sopt.post.application.dto.response.GetSimplePostServiceResponse;
 import org.sopt.post.application.dto.response.SearchPostServiceResponse;
 import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.domain.Tag;
-import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
 import org.sopt.user.domain.User;
 import org.sopt.user.presentation.exception.UserErrorCode;
 import org.sopt.user.infrastructure.repository.UserRepository;
@@ -69,11 +69,11 @@ public class PostService {
         return new SearchResultServiceResponse(result);
     }
 
-    public GetDetailedPostResponse getPostById(Long id) {
+    public GetDetailedPostServiceResponse getPostById(Long id) {
         Post post = postRepository.findById(id)
                         .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
 
-        return GetDetailedPostResponse.from(post);
+        return GetDetailedPostServiceResponse.from(post);
     }
 
     @Transactional

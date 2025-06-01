@@ -3,6 +3,7 @@ package org.sopt.post.presentation;
 import static org.sopt.post.presentation.mapper.PostRequestMapper.toCreatePostServiceRequest;
 import static org.sopt.post.presentation.mapper.PostRequestMapper.toUpdatePostServiceRequest;
 import static org.sopt.post.presentation.mapper.PostResponseMapper.toGetAllPostsResponse;
+import static org.sopt.post.presentation.mapper.PostResponseMapper.toGetDetailedPostResponse;
 import static org.sopt.post.presentation.message.PostMessage.CREATED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.DELETED_SUCCESS;
 import static org.sopt.post.presentation.message.PostMessage.RETRIEVED_ALL_SUCCESS;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
+import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
 import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
@@ -78,7 +80,10 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<GetDetailedPostResponse>> getPostById(@PathVariable Long id) {
-        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, postService.getPostById(id)));
+        GetDetailedPostServiceResponse serviceResponse = postService.getPostById(id);
+        GetDetailedPostResponse response = toGetDetailedPostResponse(serviceResponse);
+
+        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, response));
     }
 
     @DeleteMapping("/{id}")
