@@ -1,4 +1,4 @@
-package org.sopt.post.presentation.request;
+package org.sopt.post.presentation.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

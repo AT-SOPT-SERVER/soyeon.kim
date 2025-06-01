@@ -12,11 +12,11 @@ import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.request.CreatePostServiceRequest;
 import org.sopt.post.presentation.mapper.PostRequestMapper;
-import org.sopt.post.presentation.request.CreatePostRequest;
-import org.sopt.post.presentation.request.UpdatePostRequest;
-import org.sopt.post.presentation.response.GetAllPostsResponse;
-import org.sopt.post.presentation.response.GetDetailedPostResponse;
-import org.sopt.post.presentation.response.SearchResultResponse;
+import org.sopt.post.presentation.dto.request.CreatePostRequest;
+import org.sopt.post.presentation.dto.request.UpdatePostRequest;
+import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
+import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
+import org.sopt.post.presentation.dto.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.post.application.PostService;
 

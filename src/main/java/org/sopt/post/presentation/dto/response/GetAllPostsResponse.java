@@ -1,4 +1,4 @@
-package org.sopt.post.presentation.response;
+package org.sopt.post.presentation.dto.response;
 
 import java.util.List;
 
