@@ -46,8 +46,16 @@ public class Post extends BaseEntity {
         this.tag = tag;
     }
 
+    public static Post create(User user, String title, String content, String tagName) {
+        return new Post(user, title, content, Tag.fromKoreanName(tagName));
+    }
+
     public void updateTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isOwnedBy(Long userId) {
+        return this.user.getId().equals(userId);
     }
 
     private void validateAll(String title, String content) {

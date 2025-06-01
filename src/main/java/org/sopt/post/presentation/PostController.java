@@ -14,18 +14,19 @@ import static org.sopt.post.presentation.message.PostMessage.UPDATED_SUCCESS;
 import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
+import org.sopt.post.application.command.PostCommandService;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
 import org.sopt.post.application.dto.response.SearchResultServiceResponse;
+import org.sopt.post.application.query.PostQueryService;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
 import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
 import org.sopt.post.presentation.dto.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
-import org.sopt.post.application.PostService;
 
 import org.sopt.post.presentation.mapper.PostResponseMapper;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PostController {
 
-    private final PostService postService;
+    private final PostCommandService postCommandService;
+    private final PostQueryService postQueryService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createPost(
@@ -53,7 +55,7 @@ public class PostController {
         @Valid @RequestBody final CreatePostRequest createPostRequest
     ) {
         CreatePostServiceRequest serviceRequest = toCreatePostServiceRequest(createPostRequest);
-        Long createdId = postService.createPost(userId, serviceRequest);
+        Long createdId = postCommandService.createPost(userId, serviceRequest);
         URI location = URI.create("/api/v1/posts/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created(CREATED_SUCCESS));
@@ -61,7 +63,7 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
-        GetAllPostsServiceResponse serviceResponse = postService.getAllPosts();
+        GetAllPostsServiceResponse serviceResponse = postQueryService.getAllPosts();
         GetAllPostsResponse response = toGetAllPostsResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, response));
@@ -72,7 +74,7 @@ public class PostController {
         @RequestParam String keyword,
         @RequestParam String type
     ) {
-        SearchResultServiceResponse serviceResponse = postService.searchPostsByKeyword(keyword, type);
+        SearchResultServiceResponse serviceResponse = postQueryService.searchPostsByKeyword(keyword, type);
         SearchResultResponse response = PostResponseMapper.toSearchResultResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(SEARCHED_SUCCESS, response));
@@ -80,20 +82,10 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<GetDetailedPostResponse>> getPostById(@PathVariable Long id) {
-        GetDetailedPostServiceResponse serviceResponse = postService.getPostById(id);
+        GetDetailedPostServiceResponse serviceResponse = postQueryService.getPostById(id);
         GetDetailedPostResponse response = toGetDetailedPostResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, response));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Void>> deletePostById(
-        @RequestHeader(required = false) Long userId,
-        @PathVariable Long id
-    ) {
-        postService.deletePostById(userId, id);
-
-        return ResponseEntity.ok(ApiResponse.ok(DELETED_SUCCESS));
     }
 
     @PatchMapping("/{id}")
@@ -103,8 +95,18 @@ public class PostController {
         @Valid @RequestBody UpdatePostRequest updatePostRequest
     ) {
         UpdatePostServiceRequest updatePostServiceRequest = toUpdatePostServiceRequest(updatePostRequest);
-        postService.updatePostTitle(userId, id, updatePostServiceRequest);
+        postCommandService.updatePostTitle(userId, id, updatePostServiceRequest);
 
         return ResponseEntity.ok(ApiResponse.ok(UPDATED_SUCCESS));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deletePostById(
+        @RequestHeader(required = false) Long userId,
+        @PathVariable Long id
+    ) {
+        postCommandService.deletePostById(userId, id);
+
+        return ResponseEntity.ok(ApiResponse.ok(DELETED_SUCCESS));
     }
 }
