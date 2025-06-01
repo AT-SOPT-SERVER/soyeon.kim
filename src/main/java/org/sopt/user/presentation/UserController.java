@@ -1,4 +1,4 @@
-package org.sopt.user.controller;
+package org.sopt.user.presentation;
 
 import static org.sopt.user.message.UserMessage.CREATED_SUCCESS;
 
