@@ -8,17 +8,17 @@ import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 public class PostRequestMapper {
 
     public static CreatePostServiceRequest toCreatePostServiceRequest(CreatePostRequest createPostRequest) {
-        return CreatePostServiceRequest.builder()
-                   .title(createPostRequest.getTitle())
-                   .content(createPostRequest.getContent())
-                   .tag(createPostRequest.getTag())
-                   .build();
+        return new CreatePostServiceRequest(
+            createPostRequest.getTitle(),
+            createPostRequest.getContent(),
+            createPostRequest.getTag()
+        );
     }
 
     public static UpdatePostServiceRequest toUpdatePostServiceRequest(UpdatePostRequest updatePostRequest) {
-        return UpdatePostServiceRequest.builder()
-                   .title(updatePostRequest.getTitle())
-                   .build();
+        return new UpdatePostServiceRequest(
+            updatePostRequest.getTitle()
+        );
     }
 
 }
