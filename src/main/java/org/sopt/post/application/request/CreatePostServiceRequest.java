@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 public class CreatePostServiceRequest {
 
     private String title;
-
     private String content;
-
     private String tag;
 
     @Builder
