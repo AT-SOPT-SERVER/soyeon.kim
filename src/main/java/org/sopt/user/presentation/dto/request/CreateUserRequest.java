@@ -1,4 +1,4 @@
-package org.sopt.user.dto.request;
+package org.sopt.user.presentation.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package org.sopt.user.dto.response;
+package org.sopt.user.presentation.dto.response;
 
 import org.sopt.user.domain.User;
 

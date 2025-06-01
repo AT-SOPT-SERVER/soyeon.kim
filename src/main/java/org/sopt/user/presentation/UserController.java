@@ -6,7 +6,7 @@ import jakarta.validation.Valid;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.response.ApiResponse;
-import org.sopt.user.dto.request.CreateUserRequest;
+import org.sopt.user.presentation.dto.request.CreateUserRequest;
 import org.sopt.user.service.UserService;
 
 import org.springframework.http.ResponseEntity;
