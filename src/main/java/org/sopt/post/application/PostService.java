@@ -11,7 +11,7 @@ import org.sopt.post.presentation.response.GetSimplePostResponse;
 import org.sopt.post.presentation.response.SearchResultResponse;
 import org.sopt.user.domain.User;
 import org.sopt.user.presentation.exception.UserErrorCode;
-import org.sopt.user.repository.UserRepository;
+import org.sopt.user.infrastructure.repository.UserRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
 import org.sopt.post.presentation.exception.PostErrorCode;
