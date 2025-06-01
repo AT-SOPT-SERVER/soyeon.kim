@@ -1,6 +1,6 @@
 package org.sopt.user.presentation;
 
-import static org.sopt.user.message.UserMessage.CREATED_SUCCESS;
+import static org.sopt.user.presentation.message.UserMessage.CREATED_SUCCESS;
 
 import jakarta.validation.Valid;
 import java.net.URI;
