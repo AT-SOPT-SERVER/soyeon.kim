@@ -1,4 +1,4 @@
-package org.sopt.user.service;
+package org.sopt.user.application;
 
 import org.sopt.user.domain.User;
 import org.sopt.user.presentation.dto.request.CreateUserRequest;
