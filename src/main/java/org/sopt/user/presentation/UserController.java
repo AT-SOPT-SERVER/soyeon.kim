@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.user.application.dto.request.CreateUserServiceRequest;
 import org.sopt.user.presentation.dto.request.CreateUserRequest;
-import org.sopt.user.application.UserService;
+import org.sopt.user.application.command.UserCommandService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    private final UserService userService;
+    private final UserCommandService userCommandService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> signUp(@Valid @RequestBody CreateUserRequest createUserRequest) {
         CreateUserServiceRequest serviceRequest = toCreateUserServiceRequest(createUserRequest);
-        Long createdId = userService.createUser(serviceRequest);
+        Long createdId = userCommandService.createUser(serviceRequest);
         URI location = URI.create("/api/v1/users/" + createdId);
 
         return ResponseEntity.created(location).body(ApiResponse.created(CREATED_SUCCESS));

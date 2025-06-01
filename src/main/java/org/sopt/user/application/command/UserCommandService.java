@@ -1,18 +1,16 @@
-package org.sopt.user.application;
+package org.sopt.user.application.command;
 
+import lombok.RequiredArgsConstructor;
 import org.sopt.user.application.dto.request.CreateUserServiceRequest;
 import org.sopt.user.domain.User;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
-public class UserService {
+public class UserCommandService {
 
     private final UserRepository userRepository;
-
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     public Long createUser(CreateUserServiceRequest createUserServiceRequest) {
         User user = new User(createUserServiceRequest.name());
