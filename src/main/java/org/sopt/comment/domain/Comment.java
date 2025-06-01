@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
 import org.sopt.user.domain.User;
@@ -22,7 +23,7 @@ import org.sopt.user.domain.User;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,12 +37,15 @@ public class Comment {
 
     private String content;
 
-    @Builder
-    public Comment(User user, Post post, String content) {
+    private Comment(User user, Post post, String content) {
         validate(content);
         this.user = user;
         this.post = post;
         this.content = content;
+    }
+
+    public static Comment create(User user, Post post, String content) {
+        return new Comment(user, post, content);
     }
 
     private void validate(String content) {
