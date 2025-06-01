@@ -2,10 +2,9 @@ package org.sopt.post.application;
 
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.sopt.post.application.request.CreatePostServiceRequest;
-import org.sopt.post.application.request.UpdatePostServiceRequest;
+import org.sopt.post.application.dto.request.CreatePostServiceRequest;
+import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.domain.Tag;
-import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
 import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
 import org.sopt.post.presentation.dto.response.GetSimplePostResponse;

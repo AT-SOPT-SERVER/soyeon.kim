@@ -1,7 +1,7 @@
 package org.sopt.post.presentation.mapper;
 
-import org.sopt.post.application.request.CreatePostServiceRequest;
-import org.sopt.post.application.request.UpdatePostServiceRequest;
+import org.sopt.post.application.dto.request.CreatePostServiceRequest;
+import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 

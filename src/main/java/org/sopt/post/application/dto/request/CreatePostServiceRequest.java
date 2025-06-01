@@ -1,4 +1,4 @@
-package org.sopt.post.application.request;
+package org.sopt.post.application.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
