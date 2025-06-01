@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
+import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.presentation.dto.request.CreatePostRequest;
 import org.sopt.post.presentation.dto.request.UpdatePostRequest;
 import org.sopt.post.presentation.dto.response.GetAllPostsResponse;
@@ -24,6 +25,7 @@ import org.sopt.post.presentation.dto.response.SearchResultResponse;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.post.application.PostService;
 
+import org.sopt.post.presentation.mapper.PostResponseMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,8 +59,8 @@ public class PostController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
-        GetAllPostsServiceResponse serviceResult = postService.getAllPosts();
-        GetAllPostsResponse response = toGetAllPostsResponse(serviceResult);
+        GetAllPostsServiceResponse serviceResponse = postService.getAllPosts();
+        GetAllPostsResponse response = toGetAllPostsResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, response));
     }
@@ -68,7 +70,10 @@ public class PostController {
         @RequestParam String keyword,
         @RequestParam String type
     ) {
-        return ResponseEntity.ok(ApiResponse.ok(SEARCHED_SUCCESS, postService.searchPostsByKeyword(keyword, type)));
+        SearchResultServiceResponse serviceResponse = postService.searchPostsByKeyword(keyword, type);
+        SearchResultResponse response = PostResponseMapper.toSearchResultResponse(serviceResponse);
+
+        return ResponseEntity.ok(ApiResponse.ok(SEARCHED_SUCCESS, response));
     }
 
     @GetMapping("/{id}")

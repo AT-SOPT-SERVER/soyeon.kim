@@ -5,9 +5,10 @@ import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.application.dto.response.GetSimplePostServiceResponse;
+import org.sopt.post.application.dto.response.SearchPostServiceResponse;
+import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.domain.Tag;
 import org.sopt.post.presentation.dto.response.GetDetailedPostResponse;
-import org.sopt.post.presentation.dto.response.SearchResultResponse;
 import org.sopt.user.domain.User;
 import org.sopt.user.presentation.exception.UserErrorCode;
 import org.sopt.user.infrastructure.repository.UserRepository;
@@ -82,7 +83,7 @@ public class PostService {
         post.updateTitle(title);
     }
 
-    public SearchResultResponse searchPostsByKeyword(String keyword, String type) {
+    public SearchResultServiceResponse searchPostsByKeyword(String keyword, String type) {
         List<Post> posts = switch (type) {
             case "title" -> postRepository.findPostsByTitleContaining(keyword);
             case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
@@ -90,7 +91,11 @@ public class PostService {
             default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
         };
 
-        return SearchResultResponse.from(posts);
+        List<SearchPostServiceResponse> result = posts.stream()
+                                              .map(SearchPostServiceResponse::from)
+                                              .toList();
+
+        return new SearchResultServiceResponse(result);
     }
 
     private void validateMissingUser(Long userId) {
