@@ -27,7 +27,7 @@ public class CommentQueryService {
     public GetAllCommentsServiceResponse getAllComments(Long userId, Long postId) {
         validateUserAndPost(userId, postId);
 
-        List<Comment> comments = commentRepository.findByPostId(postId);
+        List<Comment> comments = commentRepository.findByPostIdAndDeletedFalse(postId);
         List<GetCommentServiceResponse> results = comments.stream()
                                                       .map(GetCommentServiceResponse::from)
                                                       .toList();

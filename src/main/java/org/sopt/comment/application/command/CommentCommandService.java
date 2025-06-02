@@ -48,6 +48,18 @@ public class CommentCommandService {
         comment.updateContent(updateCommentServiceRequest.getContent());
     }
 
+    @Transactional
+    public void deleteComment(Long userId, Long commentId) {
+        validateUserExists(userId);
+        Comment comment = validateAuthorizedAndGetComment(userId, commentId);
+
+        if (comment.isDeleted()) {
+            throw new BusinessException(COMMENT_NOT_FOUND);
+        }
+
+        comment.softDelete();
+    }
+
     private User getUser(Long userId) {
         return userRepository.findById(userId)
                    .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
@@ -74,7 +86,7 @@ public class CommentCommandService {
     }
 
     private Comment validateCommentExists(Long commentId) {
-        return commentRepository.findById(commentId)
+        return commentRepository.findByIdAndDeletedFalse(commentId)
                    .orElseThrow(() -> new BusinessException(COMMENT_NOT_FOUND));
     }
 }
