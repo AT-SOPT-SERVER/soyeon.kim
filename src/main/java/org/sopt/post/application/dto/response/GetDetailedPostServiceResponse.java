@@ -1,5 +1,6 @@
 package org.sopt.post.application.dto.response;
 
+import java.util.List;
 import org.sopt.post.domain.Post;
 
 public record GetDetailedPostServiceResponse(
@@ -7,7 +8,8 @@ public record GetDetailedPostServiceResponse(
     Long authorId,
     String authorName,
     String title,
-    String content
+    String content,
+    List<GetCommentServiceResponse> comments
 ) {
 
     public static GetDetailedPostServiceResponse from(Post post) {
@@ -16,7 +18,14 @@ public record GetDetailedPostServiceResponse(
             post.getUser().getId(),
             post.getUser().getName(),
             post.getTitle(),
-            post.getContent()
+            post.getContent(),
+            getCommentServiceResponses(post)
         );
+    }
+
+    private static List<GetCommentServiceResponse> getCommentServiceResponses(Post post) {
+        return post.getActiveComments().stream()
+                   .map(GetCommentServiceResponse::from)
+                   .toList();
     }
 }
