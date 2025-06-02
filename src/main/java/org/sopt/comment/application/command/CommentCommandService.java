@@ -33,6 +33,7 @@ public class CommentCommandService {
 
         Comment comment = Comment.create(user, post, createCommentServiceRequest.getContent());
         commentRepository.save(comment);
+        post.addComment(comment);
 
         return comment.getId();
     }
@@ -66,7 +67,7 @@ public class CommentCommandService {
     }
 
     private Post getPost(Long postId) {
-        return postRepository.findById(postId)
+        return postRepository.findByIdAndDeletedFalse(postId)
                    .orElseThrow(() -> new BusinessException(POST_NOT_FOUND));
     }
 
