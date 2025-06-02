@@ -7,17 +7,24 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.user.domain.User;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(
+    name = "post_like",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "idx_unique_user_post_like", columnNames = {"user_id", "post_id"})
+    }
+)
 public class PostLike extends BaseEntity {
 
     @Id
@@ -31,4 +38,17 @@ public class PostLike extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
+
+    @Builder
+    private PostLike(User user, Post post) {
+        this.user = user;
+        this.post = post;
+    }
+
+    public static PostLike create(User user, Post post) {
+        return PostLike.builder()
+                   .user(user)
+                   .post(post)
+                   .build();
+    }
 }
