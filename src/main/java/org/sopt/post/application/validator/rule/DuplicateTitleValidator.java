@@ -15,7 +15,7 @@ public class DuplicateTitleValidator implements PostValidationRule {
 
     @Override
     public void validate(Long userId, String title) {
-        if (postRepository.findPostByTitle(title).isPresent()) {
+        if (postRepository.findPostByTitleAndDeletedFalse(title).isPresent()) {
             throw new BusinessException(PostErrorCode.TITLE_DUPLICATED);
         }
     }

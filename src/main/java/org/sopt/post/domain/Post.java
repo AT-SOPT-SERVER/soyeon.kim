@@ -1,5 +1,6 @@
 package org.sopt.post.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -9,9 +10,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.sopt.comment.domain.Comment;
 import org.sopt.user.domain.User;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
@@ -38,6 +44,14 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Tag tag;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    private LocalDateTime deletedAt;
+
+    @OneToMany(mappedBy = "post") // soft-delete 사용하지 않는 경우 cascade, orphanRemove 추가
+    private final List<Comment> commentList = new ArrayList<>();
+
     public Post(User user, String title, String content, Tag tag) {
         validateAll(title, content);
         this.user = user;
@@ -54,8 +68,26 @@ public class Post extends BaseEntity {
         this.title = title;
     }
 
+    public List<Comment> getActiveComments() {
+        return commentList.stream()
+                   .filter(comment -> !comment.isDeleted())
+                   .toList();
+    }
+
     public boolean isOwnedBy(Long userId) {
         return this.user.getId().equals(userId);
+    }
+
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+    }
+
+    public void softDelete() {
+        this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
+        for (Comment comment : commentList) {
+            comment.softDelete();
+        }
     }
 
     private void validateAll(String title, String content) {

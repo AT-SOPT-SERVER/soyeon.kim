@@ -23,7 +23,7 @@ public class PostQueryService {
     private final PostRepository postRepository;
 
     public GetAllPostsServiceResponse getAllPosts() {
-        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        List<Post> posts = postRepository.findAllByDeletedFalseOrderByCreatedAtDesc();
         List<GetSimplePostServiceResponse> result = posts.stream()
                                                         .map(GetSimplePostServiceResponse::from)
                                                         .toList();
@@ -49,9 +49,9 @@ public class PostQueryService {
 
     private List<Post> getPosts(String keyword, String type) {
         return switch (type) {
-            case "title" -> postRepository.findPostsByTitleContaining(keyword);
-            case "user" -> postRepository.findPostsByUser_nameContaining(keyword);
-            case "tag" -> postRepository.findPostsByTag(Tag.fromKoreanName(keyword));
+            case "title" -> postRepository.findPostsDeletedFalseAndByTitleContaining(keyword);
+            case "user" -> postRepository.findPostsByDeletedFalseAndUser_nameContaining(keyword);
+            case "tag" -> postRepository.findPostsDeletedFalseAndByTag(Tag.fromKoreanName(keyword));
             default -> throw new BusinessException(PostErrorCode.INVALID_SEARCH_TYPE);
         };
     }

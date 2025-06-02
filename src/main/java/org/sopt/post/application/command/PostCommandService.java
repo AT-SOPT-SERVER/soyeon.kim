@@ -47,7 +47,7 @@ public class PostCommandService {
         Post post = getPost(postId);
         validateOwnership(userId, post);
 
-        postRepository.delete(post);
+        post.softDelete();
     }
 
     private User getUser(Long userId) {
@@ -56,7 +56,7 @@ public class PostCommandService {
     }
 
     private Post getPost(Long id) {
-        return postRepository.findById(id)
+        return postRepository.findByIdAndDeletedFalse(id)
                    .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
     }
 

@@ -10,15 +10,17 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
 
-    Optional<Post> findFirstByUser_IdOrderByCreatedAtDesc(Long userId);
+    Optional<Post> findFirstByUser_IdAndDeletedFalseOrderByCreatedAtDesc(Long userId);
 
-    List<Post> findAllByOrderByCreatedAtDesc();
+    List<Post> findAllByDeletedFalseOrderByCreatedAtDesc();
 
-    Optional<Post> findPostByTitle(String title);
+    Optional<Post> findPostByTitleAndDeletedFalse(String title);
 
-    List<Post> findPostsByTitleContaining(String keyword);
+    List<Post> findPostsDeletedFalseAndByTitleContaining(String keyword);
 
-    List<Post> findPostsByUser_nameContaining(String keyword);
+    List<Post> findPostsByDeletedFalseAndUser_nameContaining(String keyword);
 
-    List<Post> findPostsByTag(Tag tag);
+    List<Post> findPostsDeletedFalseAndByTag(Tag tag);
+
+    Optional<Post> findByIdAndDeletedFalse(Long postId);
 }
