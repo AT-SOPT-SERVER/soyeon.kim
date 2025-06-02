@@ -4,6 +4,7 @@ import static org.sopt.comment.presentation.mapper.CommentRequestMapper.toCreate
 import static org.sopt.comment.presentation.mapper.CommentRequestMapper.toUpdateCommentServiceRequest;
 import static org.sopt.comment.presentation.mapper.CommentResponseMapper.toGetAllCommentsResponse;
 import static org.sopt.comment.presentation.message.CommentMessage.CREATED_SUCCESS;
+import static org.sopt.comment.presentation.message.CommentMessage.DELETED_SUCCESS;
 import static org.sopt.comment.presentation.message.CommentMessage.RETRIEVED_ALL_SUCCESS;
 import static org.sopt.comment.presentation.message.CommentMessage.UPDATED_SUCCESS;
 
@@ -20,6 +21,7 @@ import org.sopt.comment.presentation.dto.request.UpdateCommentRequest;
 import org.sopt.comment.presentation.dto.response.GetAllCommentsResponse;
 import org.sopt.global.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -74,5 +76,15 @@ public class CommentController {
         commentCommandService.updateComment(serviceRequest);
 
         return ResponseEntity.ok(ApiResponse.ok(UPDATED_SUCCESS));
+    }
+
+    @DeleteMapping("/comments/{comment-id}")
+    public ResponseEntity<ApiResponse<Void>> deleteComment(
+        @RequestHeader Long userId,
+        @PathVariable(name = "comment-id") Long commentId
+    ) {
+        commentCommandService.deleteComment(userId, commentId);
+
+        return ResponseEntity.ok(ApiResponse.ok(DELETED_SUCCESS));
     }
 }

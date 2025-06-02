@@ -4,4 +4,5 @@ public class CommentMessage {
     public static final String CREATED_SUCCESS = "성공적으로 댓글을 등록했습니다.";
     public static final String RETRIEVED_ALL_SUCCESS = "성공적으로 댓글 목록을 조회했습니다.";
     public static final String UPDATED_SUCCESS = "성공적으로 댓글을 수정했습니다.";
+    public static final String DELETED_SUCCESS = "성공적으로 댓글을 삭제했습니다.";
 }
