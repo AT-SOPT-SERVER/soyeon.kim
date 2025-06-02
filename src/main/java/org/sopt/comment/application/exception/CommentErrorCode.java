@@ -1,4 +1,4 @@
-package org.sopt.comment.presentation.exception;
+package org.sopt.comment.application.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.ErrorCode;
