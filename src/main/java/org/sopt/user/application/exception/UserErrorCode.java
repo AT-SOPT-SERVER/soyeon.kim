@@ -1,4 +1,4 @@
-package org.sopt.user.presentation.exception;
+package org.sopt.user.application.exception;
 
 import org.sopt.global.error.ErrorCode;
 import org.springframework.http.HttpStatus;
