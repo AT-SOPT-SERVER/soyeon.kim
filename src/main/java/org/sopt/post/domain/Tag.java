@@ -2,7 +2,7 @@ package org.sopt.post.domain;
 
 import java.util.Arrays;
 import lombok.Getter;
-import org.sopt.post.presentation.exception.PostErrorCode;
+import org.sopt.post.application.exception.PostErrorCode;
 import org.sopt.global.error.BusinessException;
 
 @Getter

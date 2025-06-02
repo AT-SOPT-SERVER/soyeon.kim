@@ -16,7 +16,7 @@ import org.sopt.user.domain.User;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
-import org.sopt.post.presentation.exception.PostErrorCode;
+import org.sopt.post.application.exception.PostErrorCode;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
