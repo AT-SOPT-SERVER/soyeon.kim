@@ -2,7 +2,7 @@ package org.sopt.post.application.query;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.sopt.comment.domain.Comment;
+
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
