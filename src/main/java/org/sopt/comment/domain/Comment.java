@@ -4,12 +4,14 @@ import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CO
 import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CONTENT_LENGTH;
 import static org.sopt.global.util.GraphemeClusterUtil.countGraphemeClusters;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,6 +37,11 @@ public class Comment extends BaseEntity {
 
     private String content;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    private LocalDateTime deletedAt;
+
     private Comment(User user, Post post, String content) {
         validate(content);
         this.user = user;
@@ -53,6 +60,11 @@ public class Comment extends BaseEntity {
     public void updateContent(String content) {
         validate(content);
         this.content = content;
+    }
+
+    public void softDelete() {
+        this.deleted = true;
+        this.deletedAt = LocalDateTime.now();
     }
 
     private void validate(String content) {
