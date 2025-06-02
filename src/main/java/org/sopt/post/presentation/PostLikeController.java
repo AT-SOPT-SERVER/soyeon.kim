@@ -1,11 +1,17 @@
 package org.sopt.post.presentation;
 
 import static org.sopt.post.presentation.message.PostLikeMessage.CREATED_SUCCESS;
+import static org.sopt.post.presentation.message.PostLikeMessage.RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.post.application.command.PostLikeCommandService;
+import org.sopt.post.application.dto.response.GetUsersLikedPostServiceResponse;
+import org.sopt.post.application.query.PostLikeQueryService;
+import org.sopt.post.presentation.dto.response.GetUsersLikedResponse;
+import org.sopt.post.presentation.mapper.PostLikeResponseMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostLikeController {
 
     private final PostLikeCommandService postLikeCommandService;
+    private final PostLikeQueryService postLikeQueryService;
 
     @PostMapping("/{post-id}/like")
     public ResponseEntity<ApiResponse<Void>> createPostLike(
@@ -27,5 +34,15 @@ public class PostLikeController {
         postLikeCommandService.createPostLike(userId, postId);
 
         return ResponseEntity.ok(ApiResponse.ok(CREATED_SUCCESS));
+    }
+
+    @GetMapping("/{post-id}/like")
+    public ResponseEntity<ApiResponse<GetUsersLikedResponse>> getUsersLikedByPostId(
+        @PathVariable(name = "post-id") Long postId
+    ) {
+        GetUsersLikedPostServiceResponse serviceResponse = postLikeQueryService.getUsersLikedPost(postId);
+        GetUsersLikedResponse response = PostLikeResponseMapper.toGetUsersLikedResponse(serviceResponse);
+
+        return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, response));
     }
 }
