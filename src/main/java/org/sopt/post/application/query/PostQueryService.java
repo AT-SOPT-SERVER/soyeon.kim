@@ -2,6 +2,7 @@ package org.sopt.post.application.query;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.sopt.comment.domain.Comment;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
@@ -41,10 +42,14 @@ public class PostQueryService {
     }
 
     public GetDetailedPostServiceResponse getPostById(Long id) {
-        Post post = postRepository.findById(id)
-                        .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+        Post post = getPost(id);
 
         return GetDetailedPostServiceResponse.from(post);
+    }
+
+    private Post getPost(Long id) {
+        return postRepository.findByIdAndDeletedFalse(id)
+                   .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
     }
 
     private List<Post> getPosts(String keyword, String type) {
