@@ -4,7 +4,6 @@ import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CO
 import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CONTENT_LENGTH;
 import static org.sopt.global.util.GraphemeClusterUtil.countGraphemeClusters;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -31,7 +30,7 @@ public class Comment extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
     private String content;
@@ -45,6 +44,15 @@ public class Comment extends BaseEntity {
 
     public static Comment create(User user, Post post, String content) {
         return new Comment(user, post, content);
+    }
+
+    public boolean hasOwnership(Long userId) {
+        return this.user.getId().equals(userId);
+    }
+
+    public void updateContent(String content) {
+        validate(content);
+        this.content = content;
     }
 
     private void validate(String content) {
