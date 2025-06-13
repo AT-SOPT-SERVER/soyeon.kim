@@ -24,8 +24,8 @@ public class PostLikeQueryService {
     public GetUsersLikedPostServiceResponse getUsersLikedPost(Long postId) {
         validatePostExists(postId);
 
-        int count = postLikeRepository.countByPostId(postId);
-        List<User> users = postLikeRepository.findAllByPostId(postId).stream()
+        int count = postLikeRepository.countByPost_Id(postId);
+        List<User> users = postLikeRepository.findAllByPost_Id(postId).stream()
                                .map(PostLike::getUser)
                                .toList();
 
