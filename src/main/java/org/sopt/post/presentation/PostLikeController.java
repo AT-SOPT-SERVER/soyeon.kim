@@ -26,7 +26,7 @@ public class PostLikeController {
     private final PostLikeCommandService postLikeCommandService;
     private final PostLikeQueryService postLikeQueryService;
 
-    @PostMapping("/{post-id}/like")
+    @PostMapping("/{post-id}/likes")
     public ResponseEntity<ApiResponse<Void>> createPostLike(
         @RequestHeader Long userId,
         @PathVariable(name = "post-id") Long postId
@@ -36,7 +36,7 @@ public class PostLikeController {
         return ResponseEntity.ok(ApiResponse.ok(CREATED_SUCCESS));
     }
 
-    @GetMapping("/{post-id}/like")
+    @GetMapping("/{post-id}/likes")
     public ResponseEntity<ApiResponse<GetUsersLikedResponse>> getUsersLikedByPostId(
         @PathVariable(name = "post-id") Long postId
     ) {
