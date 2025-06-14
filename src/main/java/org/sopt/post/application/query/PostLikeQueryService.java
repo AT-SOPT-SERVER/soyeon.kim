@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetUsersLikedPostServiceResponse;
+import org.sopt.post.application.dto.response.LikeCountServiceResponse;
 import org.sopt.post.domain.PostLike;
 import org.sopt.post.infrastructure.repository.PostLikeRepository;
 import org.sopt.post.infrastructure.repository.PostRepository;
@@ -24,12 +25,18 @@ public class PostLikeQueryService {
     public GetUsersLikedPostServiceResponse getUsersLikedPost(Long postId) {
         validatePostExists(postId);
 
-        int count = postLikeRepository.countByPost_Id(postId);
-        List<User> users = postLikeRepository.findAllByPost_Id(postId).stream()
+        int count = postLikeRepository.countByPostId(postId);
+        List<User> users = postLikeRepository.findAllByPostId(postId).stream()
                                .map(PostLike::getUser)
                                .toList();
 
         return GetUsersLikedPostServiceResponse.from(count, users);
+    }
+
+    public LikeCountServiceResponse getLikeCount(Long postId) {
+        int count = postLikeRepository.countByPostId(postId);
+
+        return new LikeCountServiceResponse(count);
     }
 
     private void validatePostExists(Long postId) {
