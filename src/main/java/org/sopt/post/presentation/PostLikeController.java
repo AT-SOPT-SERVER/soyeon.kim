@@ -4,14 +4,17 @@ import static org.sopt.post.presentation.message.PostLikeMessage.COUNT_RETRIEVED
 import static org.sopt.post.presentation.message.PostLikeMessage.CREATED_SUCCESS;
 import static org.sopt.post.presentation.message.PostLikeMessage.DELETED_SUCCESS;
 import static org.sopt.post.presentation.message.PostLikeMessage.RETRIEVED_SUCCESS;
+import static org.sopt.post.presentation.message.PostLikeMessage.USERS_RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.response.ApiResponse;
 import org.sopt.post.application.command.PostLikeCommandService;
 import org.sopt.post.application.dto.response.GetPostLikesServiceResponse;
+import org.sopt.post.application.dto.response.GetUsersLikedServiceResponse;
 import org.sopt.post.application.dto.response.LikeCountServiceResponse;
 import org.sopt.post.application.query.PostLikeQueryService;
 import org.sopt.post.presentation.dto.response.GetPostLikesResponse;
+import org.sopt.post.presentation.dto.response.GetUsersLikedResponse;
 import org.sopt.post.presentation.dto.response.LikeCountResponse;
 import org.sopt.post.presentation.mapper.PostLikeResponseMapper;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +45,10 @@ public class PostLikeController {
     }
 
     @GetMapping("/{post-id}/likes")
-    public ResponseEntity<ApiResponse<GetPostLikesResponse>> getUsersLikedByPostId(
+    public ResponseEntity<ApiResponse<GetPostLikesResponse>> getLikesByPostId(
         @PathVariable(name = "post-id") Long postId
     ) {
-        GetPostLikesServiceResponse serviceResponse = postLikeQueryService.getUsersLikedPost(postId);
+        GetPostLikesServiceResponse serviceResponse = postLikeQueryService.getPostLikes(postId);
         GetPostLikesResponse response = PostLikeResponseMapper.toGetUsersLikedResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, response));
@@ -61,7 +64,15 @@ public class PostLikeController {
         return ResponseEntity.ok(ApiResponse.ok(COUNT_RETRIEVED_SUCCESS, response));
     }
 
-    // TODO 좋아요 반환 로직 -> 유저, 좋아요 수로 분리
+    @GetMapping("/{post-id}/likes/users")
+    public ResponseEntity<ApiResponse<GetUsersLikedResponse>> getLikedUsersByPostId(
+        @PathVariable(name = "post-id") Long postId
+    ) {
+        GetUsersLikedServiceResponse serviceResponse = postLikeQueryService.getLikedUsers(postId);
+        GetUsersLikedResponse response = PostLikeResponseMapper.toGetUsersLikedResponse(serviceResponse);
+
+        return ResponseEntity.ok(ApiResponse.ok(USERS_RETRIEVED_SUCCESS, response));
+    }
 
     @DeleteMapping("/{post-id}/likes")
     public ResponseEntity<ApiResponse<Void>> dislikePost(

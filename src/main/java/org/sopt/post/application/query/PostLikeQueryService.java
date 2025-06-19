@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetPostLikesServiceResponse;
+import org.sopt.post.application.dto.response.GetUsersLikedServiceResponse;
 import org.sopt.post.application.dto.response.LikeCountServiceResponse;
 import org.sopt.post.domain.PostLike;
 import org.sopt.post.infrastructure.repository.PostLikeRepository;
@@ -22,7 +23,7 @@ public class PostLikeQueryService {
     private final PostLikeRepository postLikeRepository;
     private final PostRepository postRepository;
 
-    public GetPostLikesServiceResponse getUsersLikedPost(Long postId) {
+    public GetPostLikesServiceResponse getPostLikes(Long postId) {
         validatePostExists(postId);
 
         int count = getPostLikeCount(postId);
@@ -32,9 +33,23 @@ public class PostLikeQueryService {
     }
 
     public LikeCountServiceResponse getLikeCount(Long postId) {
+        validatePostExists(postId);
         int count = getPostLikeCount(postId);
 
         return new LikeCountServiceResponse(count);
+    }
+
+    public GetUsersLikedServiceResponse getLikedUsers(Long postId) {
+        validatePostExists(postId);
+        List<User> users = getPostLikeUserList(postId);
+
+        return GetUsersLikedServiceResponse.from(users);
+    }
+
+    private void validatePostExists(Long postId) {
+        if (!postRepository.existsByIdAndDeletedFalse(postId)) {
+            throw new BusinessException(POST_NOT_FOUND);
+        }
     }
 
     private List<User> getPostLikeUserList(Long postId) {
@@ -45,11 +60,5 @@ public class PostLikeQueryService {
 
     private int getPostLikeCount(Long postId) {
         return postLikeRepository.countByPostId(postId);
-    }
-
-    private void validatePostExists(Long postId) {
-        if (!postRepository.existsByIdAndDeletedFalse(postId)) {
-            throw new BusinessException(POST_NOT_FOUND);
-        }
     }
 }
