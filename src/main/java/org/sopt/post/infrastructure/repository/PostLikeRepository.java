@@ -1,7 +1,7 @@
 package org.sopt.post.infrastructure.repository;
 
 import java.util.List;
-import org.sopt.post.domain.Post;
+import java.util.Optional;
 import org.sopt.post.domain.PostLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,5 +15,5 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
     List<PostLike> findAllByPostId(Long postId);
 
-    Long post(Post post);
+    Optional<PostLike> findByUserIdAndPostId(Long userId, Long postId);
 }
