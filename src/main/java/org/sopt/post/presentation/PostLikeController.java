@@ -2,6 +2,7 @@ package org.sopt.post.presentation;
 
 import static org.sopt.post.presentation.message.PostLikeMessage.COUNT_RETRIEVED_SUCCESS;
 import static org.sopt.post.presentation.message.PostLikeMessage.CREATED_SUCCESS;
+import static org.sopt.post.presentation.message.PostLikeMessage.DELETED_SUCCESS;
 import static org.sopt.post.presentation.message.PostLikeMessage.USERS_RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.sopt.post.presentation.dto.response.GetUsersLikedResponse;
 import org.sopt.post.presentation.dto.response.LikeCountResponse;
 import org.sopt.post.presentation.mapper.PostLikeResponseMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,6 +61,15 @@ public class PostLikeController {
         return ResponseEntity.ok(ApiResponse.ok(COUNT_RETRIEVED_SUCCESS, response));
     }
 
-    // TODO 게시글 좋아요 취소
+    // TODO 좋아요 반환 로직 -> 유저, 좋아요 수로 분리
 
+    @DeleteMapping("/{post-id}/likes")
+    public ResponseEntity<ApiResponse<Void>> dislikePost(
+        @RequestHeader Long userId,
+        @PathVariable(name = "post-id") Long postId
+    ) {
+        postLikeCommandService.dislikePost(userId, postId);
+
+        return ResponseEntity.ok(ApiResponse.ok(DELETED_SUCCESS));
+    }
 }
