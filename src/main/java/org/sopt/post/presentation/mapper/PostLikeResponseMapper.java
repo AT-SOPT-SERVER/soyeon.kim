@@ -1,20 +1,20 @@
 package org.sopt.post.presentation.mapper;
 
 import org.sopt.post.application.dto.response.GetUserLikedPostServiceResponse;
-import org.sopt.post.application.dto.response.GetUsersLikedPostServiceResponse;
+import org.sopt.post.application.dto.response.GetPostLikesServiceResponse;
 import org.sopt.post.application.dto.response.LikeCountServiceResponse;
 import org.sopt.post.presentation.dto.response.GetUserLikedPostResponse;
-import org.sopt.post.presentation.dto.response.GetUsersLikedResponse;
+import org.sopt.post.presentation.dto.response.GetPostLikesResponse;
 import org.sopt.post.presentation.dto.response.LikeCountResponse;
 
 public class PostLikeResponseMapper {
 
-    public static GetUsersLikedResponse toGetUsersLikedResponse(
-        GetUsersLikedPostServiceResponse getUsersLikedPostServiceResponse
+    public static GetPostLikesResponse toGetUsersLikedResponse(
+        GetPostLikesServiceResponse getPostLikesServiceResponse
     ) {
-        return new GetUsersLikedResponse(
-            getUsersLikedPostServiceResponse.count(),
-            getUsersLikedPostServiceResponse.users().stream()
+        return new GetPostLikesResponse(
+            getPostLikesServiceResponse.count(),
+            getPostLikesServiceResponse.users().stream()
                 .map(PostLikeResponseMapper::toGetUserLikedPostResponse)
                 .toList()
         );
