@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum PostLikeErrorCode implements ErrorCode {
 
+    // 404 Not Found
+    POST_LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 게시글에 좋아요를 누른 적이 없습니다."),
+
     // 409 Conflict
     POST_ALREADY_LIKED(HttpStatus.CONFLICT, "이미 이 게시글에 좋아요를 눌렀습니다.");
 
