@@ -3,7 +3,7 @@ package org.sopt.post.application.command;
 import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
 import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_ALREADY_LIKED;
 import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_LIKE_NOT_FOUND;
-import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
+import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.BusinessException;

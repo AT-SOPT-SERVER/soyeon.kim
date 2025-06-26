@@ -1,7 +1,7 @@
 package org.sopt.comment.application.query;
 
 import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
-import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
+import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.response.GetAllCommentsServiceResponse;

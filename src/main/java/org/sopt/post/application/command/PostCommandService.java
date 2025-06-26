@@ -10,7 +10,7 @@ import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.post.domain.exception.PostErrorCode;
 import org.sopt.user.domain.User;
 import org.sopt.user.infrastructure.repository.UserRepository;
-import org.sopt.user.application.exception.UserErrorCode;
+import org.sopt.user.domain.exception.UserErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
