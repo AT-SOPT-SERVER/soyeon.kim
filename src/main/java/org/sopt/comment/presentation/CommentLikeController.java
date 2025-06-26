@@ -1,6 +1,7 @@
 package org.sopt.comment.presentation;
 
 import static org.sopt.comment.presentation.message.CommentLikeMessage.CREATED_SUCCESS;
+import static org.sopt.comment.presentation.message.CommentLikeMessage.DELETED_SUCCESS;
 import static org.sopt.comment.presentation.message.CommentLikeMessage.RETRIEVED_SUCCESS;
 
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.sopt.comment.presentation.dto.response.GetCommentLikesCountResponse;
 import org.sopt.comment.presentation.mapper.CommentLikeResponseMapper;
 import org.sopt.global.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +49,13 @@ public class CommentLikeController {
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_SUCCESS, response));
     }
 
-    // TODO 댓글 좋아요 취소
+    @DeleteMapping("/{comment-id}/likes")
+    public ResponseEntity<ApiResponse<Void>> deleteCommentLikes(
+        @PathVariable(name = "comment-id") Long commentId,
+        @RequestHeader Long userId
+    ) {
+        commentLikeCommandService.cancelCommentLikes(userId, commentId);
 
+        return ResponseEntity.ok(ApiResponse.created(DELETED_SUCCESS));
+    }
 }
