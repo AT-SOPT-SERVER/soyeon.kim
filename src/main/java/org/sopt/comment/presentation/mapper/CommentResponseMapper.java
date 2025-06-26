@@ -10,9 +10,13 @@ public class CommentResponseMapper {
 
     public static GetAllCommentsResponse toGetAllCommentsResponse(GetAllCommentsServiceResponse serviceResponse) {
         return new GetAllCommentsResponse(
-            serviceResponse.comment().stream()
+            serviceResponse.comments().stream()
                 .map(CommentResponseMapper::toGetCommentResponse)
-                .toList()
+                .toList(),
+            serviceResponse.page(),
+            serviceResponse.size(),
+            serviceResponse.totalPages(),
+            serviceResponse.totalElements()
         );
     }
 
