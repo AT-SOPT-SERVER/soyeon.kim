@@ -10,6 +10,10 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+<<<<<<< feat/#10-like
+import jakarta.persistence.JoinColumn;
+=======
+>>>>>>> bridge/#8-seminar7
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
@@ -30,9 +34,17 @@ public class Comment extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+<<<<<<< feat/#10-like
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+=======
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+>>>>>>> bridge/#8-seminar7
     private Post post;
 
     private String content;
