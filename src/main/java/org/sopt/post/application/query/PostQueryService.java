@@ -1,5 +1,8 @@
 package org.sopt.post.application.query;
 
+import static org.springframework.data.domain.PageRequest.of;
+import static org.springframework.data.domain.Sort.*;
+
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 
@@ -13,6 +16,7 @@ import org.sopt.post.domain.Post;
 import org.sopt.post.domain.Tag;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.post.application.exception.PostErrorCode;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,13 +27,17 @@ public class PostQueryService {
 
     private final PostRepository postRepository;
 
-    public GetAllPostsServiceResponse getAllPosts() {
-        List<Post> posts = postRepository.findAllByDeletedFalseOrderByCreatedAtDesc();
-        List<GetSimplePostServiceResponse> result = posts.stream()
+    public GetAllPostsServiceResponse getAllPosts(int page, int size) {
+        Page<Post> postPage = postRepository.findAllByDeletedFalse(
+            of(page, size, by(Direction.DESC, "createdAt"))
+        );
+
+        List<GetSimplePostServiceResponse> result = postPage.getContent().stream()
                                                         .map(GetSimplePostServiceResponse::from)
                                                         .toList();
 
-        return new GetAllPostsServiceResponse(result);
+        return new GetAllPostsServiceResponse(result, page, size, postPage.getTotalPages(),
+            postPage.getTotalElements());
     }
 
     public SearchResultServiceResponse searchPostsByKeyword(String keyword, String type) {

@@ -3,15 +3,16 @@ package org.sopt.comment.application.query;
 import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
 import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.response.GetAllCommentsServiceResponse;
 import org.sopt.comment.application.dto.response.GetCommentServiceResponse;
-import org.sopt.comment.domain.Comment;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.infrastructure.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,15 +25,14 @@ public class CommentQueryService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-    public GetAllCommentsServiceResponse getAllComments(Long userId, Long postId) {
+    public GetAllCommentsServiceResponse getAllComments(Long userId, Long postId, int page, int size) {
         validateUserAndPost(userId, postId);
 
-        List<Comment> comments = commentRepository.findByPostIdAndDeletedFalse(postId);
-        List<GetCommentServiceResponse> results = comments.stream()
-                                                      .map(GetCommentServiceResponse::from)
-                                                      .toList();
+        Page<GetCommentServiceResponse> commentPage = commentRepository.findByPostIdAndDeletedFalse(
+            postId, PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"))
+        ).map(GetCommentServiceResponse::from);
 
-        return new GetAllCommentsServiceResponse(results);
+        return GetAllCommentsServiceResponse.from(commentPage.getContent(), commentPage);
     }
 
     private void validateUserAndPost(Long userId, Long postId) {
@@ -41,7 +41,7 @@ public class CommentQueryService {
     }
 
     private void validateUserExist(Long userId) {
-        if (userId == null ||!userRepository.existsById(userId)) {
+        if (userId == null || !userRepository.existsById(userId)) {
             throw new BusinessException(USER_NOT_FOUND);
         }
     }
