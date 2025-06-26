@@ -23,4 +23,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findPostsDeletedFalseAndByTag(Tag tag);
 
     Optional<Post> findByIdAndDeletedFalse(Long postId);
+
+    boolean existsByIdAndDeletedFalse(Long postId);
 }
