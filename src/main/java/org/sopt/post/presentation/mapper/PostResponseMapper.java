@@ -21,7 +21,11 @@ public class PostResponseMapper {
         return new GetAllPostsResponse(
             getAllPostsServiceResponse.results().stream()
                 .map(PostResponseMapper::toGetSimplePostResponse)
-                .toList()
+                .toList(),
+            getAllPostsServiceResponse.page(),
+            getAllPostsServiceResponse.size(),
+            getAllPostsServiceResponse.totalPages(),
+            getAllPostsServiceResponse.totalElements()
         );
     }
 

@@ -1,6 +1,5 @@
 package org.sopt.comment.infrastructure.repository;
 
-import java.util.List;
 import java.util.Optional;
 import org.sopt.comment.domain.Comment;
 import org.springframework.data.domain.Page;

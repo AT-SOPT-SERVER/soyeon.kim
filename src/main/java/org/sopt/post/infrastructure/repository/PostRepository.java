@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.Tag;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,8 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     Optional<Post> findFirstByUser_IdAndDeletedFalseOrderByCreatedAtDesc(Long userId);
-
-    List<Post> findAllByDeletedFalseOrderByCreatedAtDesc();
 
     Optional<Post> findPostByTitleAndDeletedFalse(String title);
 
@@ -25,4 +25,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Optional<Post> findByIdAndDeletedFalse(Long postId);
 
     boolean existsByIdAndDeletedFalse(Long postId);
+
+    Page<Post> findAllByDeletedFalse(Pageable pageable);
 }

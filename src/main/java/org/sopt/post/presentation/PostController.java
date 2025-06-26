@@ -62,8 +62,11 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts() {
-        GetAllPostsServiceResponse serviceResponse = postQueryService.getAllPosts();
+    public ResponseEntity<ApiResponse<GetAllPostsResponse>> getAllPosts(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int size
+    ) {
+        GetAllPostsServiceResponse serviceResponse = postQueryService.getAllPosts(page, size);
         GetAllPostsResponse response = toGetAllPostsResponse(serviceResponse);
 
         return ResponseEntity.ok(ApiResponse.ok(RETRIEVED_ALL_SUCCESS, response));
