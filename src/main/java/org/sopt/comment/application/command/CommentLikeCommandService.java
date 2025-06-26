@@ -1,8 +1,8 @@
 package org.sopt.comment.application.command;
 
-import static org.sopt.comment.application.exception.CommentErrorCode.COMMENT_NOT_FOUND;
-import static org.sopt.comment.application.exception.CommentLikeErrorCode.COMMENT_ALREADY_LIKED;
-import static org.sopt.comment.application.exception.CommentLikeErrorCode.COMMENT_LIKE_NOT_FOUND;
+import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_NOT_FOUND;
+import static org.sopt.comment.domain.exception.CommentLikeErrorCode.COMMENT_ALREADY_LIKED;
+import static org.sopt.comment.domain.exception.CommentLikeErrorCode.COMMENT_LIKE_NOT_FOUND;
 import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package org.sopt.comment.application.query;
 
-import static org.sopt.comment.application.exception.CommentErrorCode.COMMENT_NOT_FOUND;
+import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.response.GetCommentLikesCountServiceResponse;
