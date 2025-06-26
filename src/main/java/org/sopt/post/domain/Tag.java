@@ -2,7 +2,7 @@ package org.sopt.post.domain;
 
 import java.util.Arrays;
 import lombok.Getter;
-import org.sopt.post.application.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostErrorCode;
 import org.sopt.global.error.BusinessException;
 
 @Getter
@@ -20,8 +20,8 @@ public enum Tag {
 
     public static Tag fromKoreanName(String name) {
         return Arrays.stream(Tag.values())
-                .filter(tag -> tag.getName().equals(name))
-                .findFirst()
-                .orElseThrow(() -> new BusinessException(PostErrorCode.INVALID_TAG_TYPE));
+                   .filter(tag -> tag.getName().equals(name))
+                   .findFirst()
+                   .orElseThrow(() -> new BusinessException(PostErrorCode.INVALID_TAG_TYPE));
     }
 }

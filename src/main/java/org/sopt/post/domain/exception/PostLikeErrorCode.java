@@ -1,4 +1,4 @@
-package org.sopt.post.application.exception;
+package org.sopt.post.domain.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.ErrorCode;
@@ -17,12 +17,12 @@ public enum PostLikeErrorCode implements ErrorCode {
     private final String message;
 
     @Override
-    public HttpStatus getStatus(){
+    public HttpStatus getStatus() {
         return this.status;
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return this.message;
     }
 }

@@ -1,8 +1,8 @@
 package org.sopt.post.application.command;
 
-import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
-import static org.sopt.post.application.exception.PostLikeErrorCode.POST_ALREADY_LIKED;
-import static org.sopt.post.application.exception.PostLikeErrorCode.POST_LIKE_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_ALREADY_LIKED;
+import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_LIKE_NOT_FOUND;
 import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +58,6 @@ public class PostLikeCommandService {
 
     private PostLike validateDislikeAvailable(Long userId, Long postId) {
         return postLikeRepository.findByUserIdAndPostId(userId, postId)
-                                .orElseThrow(() -> new BusinessException(POST_LIKE_NOT_FOUND));
+                   .orElseThrow(() -> new BusinessException(POST_LIKE_NOT_FOUND));
     }
 }

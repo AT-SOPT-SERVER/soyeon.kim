@@ -7,7 +7,7 @@ import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.validator.PostValidator;
 import org.sopt.post.domain.Post;
 import org.sopt.post.infrastructure.repository.PostRepository;
-import org.sopt.post.application.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostErrorCode;
 import org.sopt.user.domain.User;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.sopt.user.application.exception.UserErrorCode;

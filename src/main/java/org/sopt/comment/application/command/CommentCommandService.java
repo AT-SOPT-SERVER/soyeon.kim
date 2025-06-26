@@ -2,7 +2,7 @@ package org.sopt.comment.application.command;
 
 import static org.sopt.comment.application.exception.CommentErrorCode.COMMENT_NOT_FOUND;
 import static org.sopt.comment.application.exception.CommentErrorCode.COMMENT_UPDATE_UNAUTHORIZED;
-import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
 import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;

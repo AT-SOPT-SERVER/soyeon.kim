@@ -22,35 +22,28 @@ import org.sopt.user.domain.User;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;
-import org.sopt.post.application.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostErrorCode;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Post extends BaseEntity {
 
+    @OneToMany(mappedBy = "post") // soft-delete 사용하지 않는 경우 cascade, orphanRemove 추가
+    private final List<Comment> commentList = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
-
     private String title;
-
     private String content;
-
     @Enumerated(EnumType.STRING)
     private Tag tag;
-
     @Column(nullable = false)
     private boolean deleted = false;
-
     private LocalDateTime deletedAt;
-
-    @OneToMany(mappedBy = "post") // soft-delete 사용하지 않는 경우 cascade, orphanRemove 추가
-    private final List<Comment> commentList = new ArrayList<>();
 
     public Post(User user, String title, String content, Tag tag) {
         validateAll(title, content);

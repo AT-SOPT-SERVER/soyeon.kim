@@ -1,6 +1,6 @@
 package org.sopt.post.application.query;
 
-import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
