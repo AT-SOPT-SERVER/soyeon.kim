@@ -31,18 +31,25 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post") // soft-delete 사용하지 않는 경우 cascade, orphanRemove 추가
     private final List<Comment> commentList = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
     private String title;
+
     private String content;
+
     @Enumerated(EnumType.STRING)
     private Tag tag;
+
     @Column(nullable = false)
     private boolean deleted = false;
+
     private LocalDateTime deletedAt;
 
     public Post(User user, String title, String content, Tag tag) {
