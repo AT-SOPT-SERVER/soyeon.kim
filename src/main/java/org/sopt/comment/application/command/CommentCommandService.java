@@ -13,6 +13,7 @@ import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
+import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
 import org.sopt.user.infrastructure.repository.UserRepository;
@@ -69,7 +70,7 @@ public class CommentCommandService {
 
     private Post getPost(Long postId) {
         return postRepository.findByIdAndDeletedFalse(postId)
-                   .orElseThrow(() -> new BusinessException(POST_NOT_FOUND));
+                   .orElseThrow(() -> new PostException(POST_NOT_FOUND));
     }
 
     private void validateUserExists(Long userId) {

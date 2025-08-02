@@ -1,16 +1,19 @@
 package org.sopt.post.application.command;
 
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_UPDATE_UNAUTHORIZED;
+
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.validator.PostValidator;
 import org.sopt.post.domain.Post;
+import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
-import org.sopt.post.domain.exception.PostErrorCode;
 import org.sopt.user.domain.User;
-import org.sopt.user.infrastructure.repository.UserRepository;
 import org.sopt.user.domain.exception.UserErrorCode;
+import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,12 +60,12 @@ public class PostCommandService {
 
     private Post getPost(Long id) {
         return postRepository.findByIdAndDeletedFalse(id)
-                   .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+                   .orElseThrow(() -> new PostException(POST_NOT_FOUND));
     }
 
     private void validateOwnership(Long userId, Post post) {
         if (!post.isOwnedBy(userId)) {
-            throw new BusinessException(PostErrorCode.POST_UPDATE_UNAUTHORIZED);
+            throw new PostException(POST_UPDATE_UNAUTHORIZED);
         }
     }
 }
