@@ -1,13 +1,15 @@
 package org.sopt.comment.application.command;
 
-import static org.sopt.comment.application.exception.CommentErrorCode.COMMENT_NOT_FOUND;
-import static org.sopt.comment.application.exception.CommentLikeErrorCode.COMMENT_ALREADY_LIKED;
-import static org.sopt.comment.application.exception.CommentLikeErrorCode.COMMENT_LIKE_NOT_FOUND;
-import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
+import static org.sopt.comment.domain.exception.CommentErrorCode.COMMENT_NOT_FOUND;
+import static org.sopt.comment.domain.exception.CommentLikeErrorCode.COMMENT_ALREADY_LIKED;
+import static org.sopt.comment.domain.exception.CommentLikeErrorCode.COMMENT_LIKE_NOT_FOUND;
+import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.domain.Comment;
 import org.sopt.comment.domain.CommentLike;
+import org.sopt.comment.domain.exception.CommentException;
+import org.sopt.comment.domain.exception.CommentLikeException;
 import org.sopt.comment.infrastructure.repository.CommentLikeRepository;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
 import org.sopt.global.error.BusinessException;
@@ -53,17 +55,17 @@ public class CommentLikeCommandService {
 
     private Comment getCommentOrThrow(Long commentId) {
         return commentRepository.findById(commentId)
-                   .orElseThrow(() -> new BusinessException(COMMENT_NOT_FOUND));
+                   .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
     }
 
     private void canLikeComment(User user, Comment comment) {
         if (commentLikeRepository.existsByUserAndComment(user, comment)) {
-            throw new BusinessException(COMMENT_ALREADY_LIKED);
+            throw new CommentLikeException(COMMENT_ALREADY_LIKED);
         }
     }
 
     private CommentLike getCommentLikeOrThrow(User user, Comment comment) {
         return commentLikeRepository.findByUserAndComment(user, comment)
-                   .orElseThrow(() -> new BusinessException(COMMENT_LIKE_NOT_FOUND));
+                   .orElseThrow(() -> new CommentLikeException(COMMENT_LIKE_NOT_FOUND));
     }
 }

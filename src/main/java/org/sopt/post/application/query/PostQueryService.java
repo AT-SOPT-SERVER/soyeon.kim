@@ -15,7 +15,7 @@ import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.Tag;
 import org.sopt.post.infrastructure.repository.PostRepository;
-import org.sopt.post.application.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostErrorCode;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

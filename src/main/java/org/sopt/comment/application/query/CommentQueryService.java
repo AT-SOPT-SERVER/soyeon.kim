@@ -1,13 +1,14 @@
 package org.sopt.comment.application.query;
 
-import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
-import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.response.GetAllCommentsServiceResponse;
 import org.sopt.comment.application.dto.response.GetCommentServiceResponse;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
 import org.sopt.global.error.BusinessException;
+import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.data.domain.Page;
@@ -48,7 +49,7 @@ public class CommentQueryService {
 
     private void validatePostExist(Long postId) {
         if (postId == null || !postRepository.existsById(postId)) {
-            throw new BusinessException(POST_NOT_FOUND);
+            throw new PostException(POST_NOT_FOUND);
         }
     }
 }

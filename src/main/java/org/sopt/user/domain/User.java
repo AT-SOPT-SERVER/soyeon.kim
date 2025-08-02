@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 
 import lombok.NoArgsConstructor;
-import org.sopt.user.application.exception.UserErrorCode;
+import org.sopt.user.domain.exception.UserErrorCode;
 import org.sopt.global.entity.BaseEntity;
 import org.sopt.global.error.BusinessException;
 import org.sopt.global.util.GraphemeClusterUtil;

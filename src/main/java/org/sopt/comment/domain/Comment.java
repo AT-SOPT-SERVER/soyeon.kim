@@ -1,7 +1,7 @@
 package org.sopt.comment.domain;
 
-import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CONTENT_BLANK;
-import static org.sopt.comment.application.exception.CommentErrorCode.INVALID_CONTENT_LENGTH;
+import static org.sopt.comment.domain.exception.CommentErrorCode.INVALID_CONTENT_BLANK;
+import static org.sopt.comment.domain.exception.CommentErrorCode.INVALID_CONTENT_LENGTH;
 import static org.sopt.global.util.GraphemeClusterUtil.countGraphemeClusters;
 
 import jakarta.persistence.Column;

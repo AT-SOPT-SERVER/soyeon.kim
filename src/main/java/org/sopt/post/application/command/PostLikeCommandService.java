@@ -1,14 +1,16 @@
 package org.sopt.post.application.command;
 
-import static org.sopt.post.application.exception.PostErrorCode.POST_NOT_FOUND;
-import static org.sopt.post.application.exception.PostLikeErrorCode.POST_ALREADY_LIKED;
-import static org.sopt.post.application.exception.PostLikeErrorCode.POST_LIKE_NOT_FOUND;
-import static org.sopt.user.application.exception.UserErrorCode.USER_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
+import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_ALREADY_LIKED;
+import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_LIKE_NOT_FOUND;
+import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.PostLike;
+import org.sopt.post.domain.exception.PostException;
+import org.sopt.post.domain.exception.PostLikeException;
 import org.sopt.post.infrastructure.repository.PostLikeRepository;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
@@ -42,7 +44,7 @@ public class PostLikeCommandService {
 
     private void validateLikeAvailable(Long userId, Long postId) {
         if (postLikeRepository.existsPostLikeByUserIdAndPostId(userId, postId)) {
-            throw new BusinessException(POST_ALREADY_LIKED);
+            throw new PostLikeException(POST_ALREADY_LIKED);
         }
     }
 
@@ -53,11 +55,11 @@ public class PostLikeCommandService {
 
     private Post getPost(Long postId) {
         return postRepository.findByIdAndDeletedFalse(postId)
-                   .orElseThrow(() -> new BusinessException(POST_NOT_FOUND));
+                   .orElseThrow(() -> new PostException(POST_NOT_FOUND));
     }
 
     private PostLike validateDislikeAvailable(Long userId, Long postId) {
         return postLikeRepository.findByUserIdAndPostId(userId, postId)
-                                .orElseThrow(() -> new BusinessException(POST_LIKE_NOT_FOUND));
+                   .orElseThrow(() -> new PostLikeException(POST_LIKE_NOT_FOUND));
     }
 }
