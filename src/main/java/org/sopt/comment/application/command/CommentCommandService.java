@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.request.CreateCommentServiceRequest;
 import org.sopt.comment.application.dto.request.UpdateCommentServiceRequest;
 import org.sopt.comment.domain.Comment;
+import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
@@ -55,7 +56,7 @@ public class CommentCommandService {
         Comment comment = validateAuthorizedAndGetComment(userId, commentId);
 
         if (comment.isDeleted()) {
-            throw new BusinessException(COMMENT_NOT_FOUND);
+            throw new CommentException(COMMENT_NOT_FOUND);
         }
 
         comment.softDelete();
@@ -80,7 +81,7 @@ public class CommentCommandService {
     private Comment validateAuthorizedAndGetComment(Long userId, Long commentId) {
         Comment comment = validateCommentExists(commentId);
         if (!comment.hasOwnership(userId)) {
-            throw new BusinessException(COMMENT_UPDATE_UNAUTHORIZED);
+            throw new CommentException(COMMENT_UPDATE_UNAUTHORIZED);
         }
         return comment;
 
@@ -88,6 +89,6 @@ public class CommentCommandService {
 
     private Comment validateCommentExists(Long commentId) {
         return commentRepository.findByIdAndDeletedFalse(commentId)
-                   .orElseThrow(() -> new BusinessException(COMMENT_NOT_FOUND));
+                   .orElseThrow(() -> new CommentException(COMMENT_NOT_FOUND));
     }
 }
