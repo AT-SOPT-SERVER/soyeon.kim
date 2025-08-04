@@ -4,7 +4,6 @@ import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
 import static org.sopt.post.domain.exception.PostErrorCode.POST_UPDATE_UNAUTHORIZED;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.request.CreatePostServiceRequest;
 import org.sopt.post.application.dto.request.UpdatePostServiceRequest;
 import org.sopt.post.application.validator.PostValidator;
@@ -13,6 +12,7 @@ import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
 import org.sopt.user.domain.exception.UserErrorCode;
+import org.sopt.user.domain.exception.UserException;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,7 +55,7 @@ public class PostCommandService {
 
     private User getUser(Long userId) {
         return userRepository.findById(userId)
-                   .orElseThrow(() -> new BusinessException(UserErrorCode.USER_NOT_FOUND));
+                   .orElseThrow(() -> new UserException(UserErrorCode.USER_NOT_FOUND));
     }
 
     private Post getPost(Long id) {

@@ -1,11 +1,11 @@
 package org.sopt.post.application.query;
 
 import static org.springframework.data.domain.PageRequest.of;
-import static org.springframework.data.domain.Sort.*;
+import static org.springframework.data.domain.Sort.Direction;
+import static org.springframework.data.domain.Sort.by;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-
 import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetAllPostsServiceResponse;
 import org.sopt.post.application.dto.response.GetDetailedPostServiceResponse;
@@ -14,8 +14,9 @@ import org.sopt.post.application.dto.response.SearchPostServiceResponse;
 import org.sopt.post.application.dto.response.SearchResultServiceResponse;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.Tag;
-import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.post.domain.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostException;
+import org.sopt.post.infrastructure.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,7 +58,7 @@ public class PostQueryService {
 
     private Post getPost(Long id) {
         return postRepository.findByIdAndDeletedFalse(id)
-                   .orElseThrow(() -> new BusinessException(PostErrorCode.POST_NOT_FOUND));
+                   .orElseThrow(() -> new PostException(PostErrorCode.POST_NOT_FOUND));
     }
 
     private List<Post> getPosts(String keyword, String type) {

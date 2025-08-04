@@ -6,7 +6,6 @@ import static org.sopt.post.domain.exception.PostLikeErrorCode.POST_LIKE_NOT_FOU
 import static org.sopt.user.domain.exception.UserErrorCode.USER_NOT_FOUND;
 
 import lombok.RequiredArgsConstructor;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.PostLike;
 import org.sopt.post.domain.exception.PostException;
@@ -14,6 +13,7 @@ import org.sopt.post.domain.exception.PostLikeException;
 import org.sopt.post.infrastructure.repository.PostLikeRepository;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
+import org.sopt.user.domain.exception.UserException;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class PostLikeCommandService {
 
     private User getUser(Long userId) {
         return userRepository.findById(userId)
-                   .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+                   .orElseThrow(() -> new UserException(USER_NOT_FOUND));
     }
 
     private Post getPost(Long postId) {

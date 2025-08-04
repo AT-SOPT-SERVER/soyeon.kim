@@ -4,11 +4,11 @@ import static org.sopt.post.domain.exception.PostErrorCode.POST_NOT_FOUND;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.application.dto.response.GetPostLikesServiceResponse;
 import org.sopt.post.application.dto.response.GetUsersLikedServiceResponse;
 import org.sopt.post.application.dto.response.LikeCountServiceResponse;
 import org.sopt.post.domain.PostLike;
+import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostLikeRepository;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
@@ -48,7 +48,7 @@ public class PostLikeQueryService {
 
     private void validatePostExists(Long postId) {
         if (!postRepository.existsByIdAndDeletedFalse(postId)) {
-            throw new BusinessException(POST_NOT_FOUND);
+            throw new PostException(POST_NOT_FOUND);
         }
     }
 

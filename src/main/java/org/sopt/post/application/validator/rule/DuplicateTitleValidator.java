@@ -1,8 +1,8 @@
 package org.sopt.post.application.validator.rule;
 
 import org.sopt.post.application.validator.PostValidationRule;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.exception.PostErrorCode;
+import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 
 public class DuplicateTitleValidator implements PostValidationRule {
@@ -16,7 +16,7 @@ public class DuplicateTitleValidator implements PostValidationRule {
     @Override
     public void validate(Long userId, String title) {
         if (postRepository.findPostByTitleAndDeletedFalse(title).isPresent()) {
-            throw new BusinessException(PostErrorCode.TITLE_DUPLICATED);
+            throw new PostException(PostErrorCode.TITLE_DUPLICATED);
         }
     }
 }
