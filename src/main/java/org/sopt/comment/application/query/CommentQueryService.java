@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.sopt.comment.application.dto.response.GetAllCommentsServiceResponse;
 import org.sopt.comment.application.dto.response.GetCommentServiceResponse;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
+import org.sopt.user.domain.exception.UserException;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,7 +43,7 @@ public class CommentQueryService {
 
     private void validateUserExist(Long userId) {
         if (userId == null || !userRepository.existsById(userId)) {
-            throw new BusinessException(USER_NOT_FOUND);
+            throw new UserException(USER_NOT_FOUND);
         }
     }
 

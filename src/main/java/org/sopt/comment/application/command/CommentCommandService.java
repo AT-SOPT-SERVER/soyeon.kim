@@ -11,11 +11,11 @@ import org.sopt.comment.application.dto.request.UpdateCommentServiceRequest;
 import org.sopt.comment.domain.Comment;
 import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
-import org.sopt.global.error.BusinessException;
 import org.sopt.post.domain.Post;
 import org.sopt.post.domain.exception.PostException;
 import org.sopt.post.infrastructure.repository.PostRepository;
 import org.sopt.user.domain.User;
+import org.sopt.user.domain.exception.UserException;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +65,7 @@ public class CommentCommandService {
 
     private User getUser(Long userId) {
         return userRepository.findById(userId)
-                   .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+                   .orElseThrow(() -> new UserException(USER_NOT_FOUND));
     }
 
     private Post getPost(Long postId) {
@@ -75,7 +75,7 @@ public class CommentCommandService {
 
     private void validateUserExists(Long userId) {
         if (!userRepository.existsById(userId)) {
-            throw new BusinessException(USER_NOT_FOUND);
+            throw new UserException(USER_NOT_FOUND);
         }
     }
 

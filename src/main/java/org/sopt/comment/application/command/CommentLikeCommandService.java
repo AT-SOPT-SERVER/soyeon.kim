@@ -12,8 +12,8 @@ import org.sopt.comment.domain.exception.CommentException;
 import org.sopt.comment.domain.exception.CommentLikeException;
 import org.sopt.comment.infrastructure.repository.CommentLikeRepository;
 import org.sopt.comment.infrastructure.repository.CommentRepository;
-import org.sopt.global.error.BusinessException;
 import org.sopt.user.domain.User;
+import org.sopt.user.domain.exception.UserException;
 import org.sopt.user.infrastructure.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,7 +50,7 @@ public class CommentLikeCommandService {
 
     private User getUserOrThrow(Long userId) {
         return userRepository.findById(userId)
-                   .orElseThrow(() -> new BusinessException(USER_NOT_FOUND));
+                   .orElseThrow(() -> new UserException(USER_NOT_FOUND));
     }
 
     private Comment getCommentOrThrow(Long commentId) {
